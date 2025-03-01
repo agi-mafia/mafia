@@ -36,7 +36,7 @@ async def player_detective_choose_target():
 @app.get("/test/player_detective_receive_info")
 async def player_detective_receive_info():
     player = Detective(index=0, model_name='gpt-3.5-turbo')
-    return player.receive_info(player_index=0, role="Villager")
+    return player.receive_info("Player 0 is killed by Mafia last night.")
 
 @app.get("/test/player_hunter")
 async def player_hunter():
