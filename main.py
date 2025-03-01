@@ -1,10 +1,14 @@
 import asyncio
+
 from fastapi import FastAPI
+
+from src.game.game import Game
+from src.game.game import Game
+from src.game.game_config import GameConfig, PlayerConfig
 from src.model.model import Model
 from src.player.detective import Detective
 from src.player.hunter import Hunter
-
-# from src.game.game import Game
+from src.player.role import Role
 
 app = FastAPI()
 
@@ -53,6 +57,30 @@ async def player_hunter():
     return player.shoot()
 
 
+@app.get("/test/josh")
+async def josh_test():
+
+    print("=" * 80)
+
+    gc = GameConfig(
+        players=[
+            PlayerConfig(model_name="gpt-3.5-turbo", role=Role.VILLAGER),
+            PlayerConfig(model_name="gpt-3.5-turbo", role=Role.MAFIA),
+            PlayerConfig(model_name="gpt-3.5-turbo", role=Role.VILLAGER),
+        ],
+    )
+
+    game = Game(gc)
+    print("Role 2 IDs")
+    print(game._role2ids)
+    print()
+    print("ID 2 player")
+    print(game._id2player)
+    game.start()
+
+    print("=" * 80)
+
+
 @app.get("/game")
 async def get_game():
     return {"message": "success"}
@@ -69,4 +97,3 @@ if __name__ == "__main__":
     import uvicorn
 
     uvicorn.run(app, host="0.0.0.0", port=8000)
-
