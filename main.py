@@ -8,6 +8,7 @@ from src.game.game_config import GameConfig, PlayerConfig
 from src.model.model import Model
 from src.player.detective import Detective
 from src.player.hunter import Hunter
+from src.player.jailor import Jailor
 from src.player.role import Role
 
 app = FastAPI()
@@ -55,6 +56,12 @@ async def player_detective_receive_info():
 async def player_hunter_shoot():
     player = Hunter(index=0, model_name="gpt-3.5-turbo")
     return player.shoot([8, 11, 14])
+
+
+@app.get("/test/player_jailor_choose_target")
+async def player_jailor_choose_target():
+    player = Jailor(index=0, model_name="gpt-3.5-turbo")
+    return player.choose_target([0, 1, 2])
 
 
 @app.get("/test/josh")
