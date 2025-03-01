@@ -42,7 +42,7 @@ async def model_test():
 @app.get("/test/player_detective_choose_target")
 async def player_detective_choose_target():
     player = Detective(index=0, model_name="gpt-3.5-turbo")
-    return player.choose_target()
+    return player.choose_target([4, 6, 7])
 
 
 @app.get("/test/player_detective_receive_info")
@@ -51,8 +51,8 @@ async def player_detective_receive_info():
     return player.receive_info("Player 0 is killed by Mafia last night.")
 
 
-@app.get("/test/player_hunter")
-async def player_hunter():
+@app.get("/test/player_hunter_shoot")
+async def player_hunter_shoot():
     player = Hunter(index=0, model_name="gpt-3.5-turbo")
     return player.shoot()
 
