@@ -14,7 +14,9 @@ class BasePlayer:
         return
 
     def speak(self) -> str:
-        self.context += "You should speak your opinion about the situation now"
+        self.context += """
+            You should speak your opinion about the situation now
+        """
         words = self.model_provider.inference(self.context)
         return words
 
@@ -29,12 +31,20 @@ class BasePlayer:
 
     def speak_last_words(self, dead_reason: int) -> str:
         if dead_reason == 0:
-            self.context += "You are now dead because you were lynched"
+            self.context += """
+                You are now dead because you were lynched
+            """
         elif dead_reason == 1:
-            self.context += "You are now dead because you were voted out"
+            self.context += """
+                You are now dead because you were voted out
+            """
         else:
-            self.context += "You are now dead because you were killed by the werewolves"
+            self.context += """
+                You are now dead because you were killed by the werewolves
+            """
 
-        self.context += "You can now speak your last words"
+        self.context += """
+            You can now speak your last words
+        """
         last_words = self.model_provider.inference(self.context)
         return last_words
