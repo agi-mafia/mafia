@@ -1,18 +1,17 @@
 class Player:
     def __init__(self):
+        self.context = ""
         pass
 
-    def get_news(self, news: str):
+    def listen(self, new_context: str) -> None:
+        self.context += new_context
         pass
 
-    def listen(self):
-        pass
+    def speak(self) -> str:
+        return ""
 
-    def speak(self):
-        pass
+    def vote(self) -> int:
+        return 0
 
-    def vote(self):
-        pass
-
-    def speak_last_words(self):
-        pass
+    def speak_last_words(self) -> str:
+        return ""
