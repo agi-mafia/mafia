@@ -19,8 +19,14 @@ class BasePlayer:
         return
 
     def listen_death(self, death_index: int):
+        if (death_index) == -1:
+            self.context += """
+                No one was eliminated last night.
+            """
+            return
+
         self.context += f"""
-            Player {death_index} has been eliminated.
+            Player {death_index} was eliminated last night.
         """
         return
 
