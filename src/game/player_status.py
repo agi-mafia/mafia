@@ -11,5 +11,6 @@ class Survival(Enum):
 
 
 class PlayerStatus(BaseModel):
+    modelname: str
     role: Role
     survival: Survival

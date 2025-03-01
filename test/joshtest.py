@@ -1,19 +1,17 @@
-from src.game.game_config import GameConfig
 from src.game.game import Game
+from src.game.game_config import GameConfig, PlayerConfig
 from src.player.role import Role
 
 gc = GameConfig(
-    players={
-        "model1": Role.mafia,
-        "model2": Role.villager,
-        "model2": Role.villager,
-        "model2": Role.villager,
-    },
+    players=[
+        PlayerConfig(modelname="model2", role=Role.villager),
+        PlayerConfig(modelname="model1", role=Role.mafia),
+        PlayerConfig(modelname="model3", role=Role.villager),
+        PlayerConfig(modelname="model4", role=Role.villager),
+    ],
 )
 
 
 game = Game(gc)
-
-print(game.player2role)
-game.player2role = 0
-print(game.player2role)
+print(game._role2ids)
+game.start()
