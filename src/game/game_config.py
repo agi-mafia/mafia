@@ -1,6 +1,7 @@
 from typing import List
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
+from typing_extensions import Annotated
 
 from src.player.role import Role
 
@@ -14,4 +15,4 @@ class GameConfig(BaseModel):
     model_config = ConfigDict(strict=True, frozen=True)
 
     players: List[PlayerConfig]
-    max_turns: int
+    max_rounds: Annotated[int, Field(strict=True, gt=0)]

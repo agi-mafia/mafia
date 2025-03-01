@@ -8,6 +8,8 @@ from src.game.game_config import GameConfig, PlayerConfig
 from src.model.model import Model
 from src.player.detective import Detective
 from src.player.hunter import Hunter
+from src.player.jailor import Jailor
+from src.player.mafia import Mafia
 from src.player.role import Role
 
 app = FastAPI()
@@ -54,7 +56,31 @@ async def player_detective_receive_info():
 @app.get("/test/player_hunter_shoot")
 async def player_hunter_shoot():
     player = Hunter(index=0, model_name="gpt-3.5-turbo")
-    return player.shoot()
+    return player.shoot([8, 11, 14])
+
+
+@app.get("/test/player_jailor_choose_target")
+async def player_jailor_choose_target():
+    player = Jailor(index=0, model_name="gpt-3.5-turbo")
+    return player.choose_target([0, 1, 2])
+
+
+@app.get("/test/player_mafia_propose_victim")
+async def player_mafia_propose_victim():
+    player = Mafia(index=0, model_name="gpt-3.5-turbo")
+    return player.propose_victim([0, 1, 2])
+
+
+@app.get("/test/player_mafia_receive_proposal")
+async def player_mafia_receive_proposal():
+    player = Mafia(index=0, model_name="gpt-3.5-turbo")
+    return player.receive_victim_proposal(1, "I propose player 2 to be eliminated.")
+
+
+@app.get("/test/player_mafia_choose_victim")
+async def player_mafia_choose_victim():
+    player = Mafia(index=0, model_name="gpt-3.5-turbo")
+    return player.choose_victim([0, 1, 2])
 
 
 @app.get("/test/josh")
@@ -68,6 +94,8 @@ async def josh_test():
             PlayerConfig(model_name="gpt-3.5-turbo", role=Role.MAFIA),
             PlayerConfig(model_name="gpt-3.5-turbo", role=Role.VILLAGER),
         ],
+        max_rounds=1,
+        max_mafia_negotiation_rounds=3,
     )
 
     game = Game(gc)
@@ -75,9 +103,10 @@ async def josh_test():
     print(game._role2ids)
     print()
     print("ID 2 player")
-    print(game._id2player)
+    print(game._players)
     game.start()
 
+    print("=" * 80)
     print("=" * 80)
 
 
