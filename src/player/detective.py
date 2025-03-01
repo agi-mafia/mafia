@@ -1,15 +1,15 @@
-from src.player.player import Player
+from src.player.player import BasePlayer
 from langchain_core.prompts import PromptTemplate
 from langchain_core.output_parsers.json import JsonOutputParser
 from langchain.chains import LLMChain
 
 
-class Detective(Player):
+class Detective(BasePlayer):
     def __init__(self, index, model_name):
         super().__init__(index=index, model_name=model_name)
         self.role = "Detective"
         self.parser = JsonOutputParser()
-        
+
         # Initialize the prompt template for target selection
         self.target_prompt = PromptTemplate(
             template="""
@@ -24,20 +24,22 @@ class Detective(Player):
             }
             """,
             input_variables=[],
-            partial_variables={"format_instructions": self.parser.get_format_instructions()}
+            partial_variables={
+                "format_instructions": self.parser.get_format_instructions()
+            },
         )
 
     def choose_target(self) -> int:
         try:
             # Create and run the chain
             chain = self.target_prompt | self.model_provider.model | self.parser
-            
+
             # Get the result
             result = chain.invoke({})
-            
+
             # Extract the chosen player index from the JSON response
-            if isinstance(result['text'], dict) and "chosen_player" in result['text']:
-                return int(result['text']["chosen_player"])
+            if isinstance(result["text"], dict) and "chosen_player" in result["text"]:
+                return int(result["text"]["chosen_player"])
             else:
                 print("Invalid response format from model")
                 return 22222
@@ -64,18 +66,17 @@ class Detective(Player):
                 }
                 """,
                 input_variables=["player_index", "role"],
-                partial_variables={"format_instructions": self.parser.get_format_instructions()}
+                partial_variables={
+                    "format_instructions": self.parser.get_format_instructions()
+                },
             )
-            
+
             # Create and run the chain
             chain = info_prompt | self.model_provider.model | self.parser
-            
+
             # Get the result
-            result = chain.invoke({
-                "player_index": player_index,
-                "role": role
-            })
-            
+            result = chain.invoke({"player_index": player_index, "role": role})
+
             return result
         except Exception as e:
             print(f"Error in receive_info: {e}")

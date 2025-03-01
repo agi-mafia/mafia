@@ -1,8 +1,8 @@
-from src.player.player import Player
+from src.player.player import BasePlayer
 from src.model.model import Model
 
 
-class Mafia(Player):
+class Mafia(BasePlayer):
     def __init__(self, index, model_name):
         super().__init__(index=index, model_name=model_name)
         self.role = "Mafia"

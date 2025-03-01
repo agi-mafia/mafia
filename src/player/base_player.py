@@ -1,7 +1,7 @@
 from src.model.model import Model
 
 
-class Player:
+class BasePlayer:
     def __init__(self, index: int, model_name: str):
         self.index = index
         self.model_provider = Model(model_name)
