@@ -71,6 +71,12 @@ async def player_mafia_propose_victim():
     return player.propose_victim([0, 1, 2])
 
 
+@app.get("/test/player_mafia_receive_proposal")
+async def player_mafia_receive_proposal():
+    player = Mafia(index=0, model_name="gpt-3.5-turbo")
+    return player.receive_victim_proposal(1, "I propose player 2 to be eliminated.")
+
+
 @app.get("/test/josh")
 async def josh_test():
 

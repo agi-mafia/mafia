@@ -40,7 +40,7 @@ class Mafia(BasePlayer):
         self.target_prompt = PromptTemplate(
             template=self.context + dedent("""\
                 It's night now. You should propose a victim. You should communicate with the other mafia to decide who to propose.
-                You can choose a player to propose as a victim from the following candidates: {candidates}.
+                You can choose a player to propose as a victim from the following candidates: {candidates} and the reason why you propose this player to be eliminated.
 
                 Example response:
                 I propose player 2 to be eliminated.
@@ -64,13 +64,11 @@ class Mafia(BasePlayer):
 
     def receive_victim_proposal(
         self,
-        candidates: List[int],
         proposer: int,
-        proposed_victim_id: int,
-        proposed_reason: str,
+        proposal: str,
     ) -> None:
-        # TODO FIX
-        pass
+        self.context += f"\nTonight, Mafia {proposer}'s propsal statement is: {proposal}."
+        return self.context
 
     # TODO FIX
     def choose_victim(self, candidates: List[int]) -> int:
