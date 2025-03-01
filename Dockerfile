@@ -20,6 +20,7 @@ RUN uv pip install --system --no-cache-dir -r requirements.txt
 
 # Copy application code
 COPY . .
+COPY .env .
 
 # Expose port (adjust as needed)
 EXPOSE 8000
