@@ -1,5 +1,5 @@
 # Use Python 3.13 image
-FROM python:3.13
+FROM python:3.10
 
 # Set working directory
 WORKDIR /app
@@ -8,11 +8,15 @@ WORKDIR /app
 RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
+# Upgrade pip and install uv
+RUN pip install --upgrade pip
+RUN pip install uv
+
 # Copy requirements first to leverage Docker cache
 COPY requirements.txt .
 
-# Install Python dependencies
-RUN pip install --no-cache-dir -r requirements.txt
+# Install Python dependencies using uv with --system flag
+RUN uv pip install --system --no-cache-dir -r requirements.txt
 
 # Copy application code
 COPY . .
@@ -21,4 +25,4 @@ COPY . .
 EXPOSE 8000
 
 # Command to run your application
-CMD ["python", "-m", "app.main"]
+CMD ["python", "main.py"]
