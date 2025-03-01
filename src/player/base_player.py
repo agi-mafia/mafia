@@ -8,8 +8,8 @@ class BasePlayer:
         self.role = "Player"
         self.context = ""
 
-    def listen(self, context: str) -> None:
-        self.context += context
+    def listen(self, speaker: int, speech: str) -> None:
+        self.context += speech
         self.model_provider.inference(self.context)
         return
 

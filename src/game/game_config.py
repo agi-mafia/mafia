@@ -14,3 +14,4 @@ class GameConfig(BaseModel):
     model_config = ConfigDict(strict=True, frozen=True)
 
     players: List[PlayerConfig]
+    max_turns: int

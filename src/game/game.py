@@ -30,7 +30,7 @@ class Game:
         return role2ids
 
     @property
-    def _remaining_ids(self):
+    def _remaining_player_ids(self):
         return [
             i
             for i in self._id2player
@@ -47,7 +47,7 @@ class Game:
         ]
 
     @property
-    def _remaining_non_mafia_ids(self):
+    def _remaining_town_ids(self):
         return [
             i
             for i in self._id2player
@@ -55,14 +55,13 @@ class Game:
             and self._id2player[i].survival == Survival.REMAINING
         ]
 
-    def has_ended(self) -> GameStatus:
-
-        num_mafia_remaining = len(self._remaining_mafia_ids)
-        num_non_mafia_remaining = len(self._remaining_non_mafia_ids)
-
-        if num_mafia_remaining > num_non_mafia_remaining:
+    @property
+    def status(self) -> GameStatus:
+        n_mafia_remaining = len(self._remaining_mafia_ids)
+        n_town_remaining = len(self._remaining_town_ids)
+        if n_mafia_remaining > n_town_remaining:
             return GameStatus.MAFIA_WIN
-        elif num_mafia_remaining == 0:
+        elif n_mafia_remaining == 0:
             return GameStatus.TOWN_WIN
         else:
             return GameStatus.IN_PROGRESS
@@ -73,3 +72,29 @@ class Game:
         for mafia_id in self._remaining_mafia_ids:
             other_mafias = [i for i in self._remaining_mafia_ids if i != mafia_id]
             self._id2player[mafia_id].player.see_teammates(other_mafias)
+
+        while self.status == GameStatus.IN_PROGRESS:
+            self.night()
+            if self.status == GameStatus.IN_PROGRESS:
+                self.day()
+
+    def night(self):
+
+        # Let mafia choose victim
+        for mafia_id in self._remaining_mafia_ids:
+            other_mafia_ids = [i for i in self._remaining_mafia_ids if i != mafia_id]
+
+            proposed_victim_id, proposed_reason = self._id2player[
+                mafia_id
+            ].player.propose_victim(self._remaining_player_ids)
+
+            for other_mafia_id in other_mafia_ids:
+                self._id2player[other_mafia_id].player.receive_victim_proposal(
+                    self._remaining_player_ids,
+                    mafia_id,
+                    proposed_victim_id,
+                    proposed_reason,
+                )
+
+    def day(self):
+        pass
