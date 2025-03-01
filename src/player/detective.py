@@ -1,4 +1,5 @@
 from typing import List
+from textwrap import dedent
 from langchain.chains import LLMChain
 from langchain_core.output_parsers.json import JsonOutputParser
 from langchain_core.prompts import PromptTemplate
@@ -10,13 +11,13 @@ class Detective(BasePlayer):
         super().__init__(index=index, model_name=model_name)
         self.role = "Detective"
         self.parser = JsonOutputParser()
-        self.context += """
+        self.context += dedent("""\
             You are a detective. You can choose a player to verify their identity each day. You can only choose one player from the valid candidates.
             Your goal is to help all the town people to find the mafia players and eliminate them.
             In each day, You will be given a list of players who are still alive. You can choose one of them to verify their identity.
             If the player is a mafia player, you will be given a message that the player is a mafia player.
             If the player is not a mafia player, you will be given a message that the player is a town person.
-        """
+            """)
 
     def choose_target(self, candidates: List[int]) -> int:
 
