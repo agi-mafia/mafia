@@ -7,8 +7,8 @@ from src.player.role import Role
 
 
 class Survival(Enum):
-    remaining = auto()
-    eliminated = auto()
+    REMAINING = auto()
+    ELIMINATED = auto()
 
 
 class InGamePlayer(BaseModel):

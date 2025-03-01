@@ -1,7 +1,8 @@
-from src.player.base_player import BasePlayer
-from langchain_core.prompts import PromptTemplate
-from langchain_core.output_parsers.json import JsonOutputParser
+from typing import List
 from langchain.chains import LLMChain
+from langchain_core.output_parsers.json import JsonOutputParser
+from langchain_core.prompts import PromptTemplate
+from src.player.base_player import BasePlayer
 
 
 class Detective(BasePlayer):
@@ -9,75 +10,53 @@ class Detective(BasePlayer):
         super().__init__(index=index, model_name=model_name)
         self.role = "Detective"
         self.parser = JsonOutputParser()
+        self.context += """
+            You are a detective. You can choose a player to verify their identity each day. You can only choose one player from the valid candidates.
+            Your goal is to help all the town people to find the mafia players and eliminate them.
+            In each day, You will be given a list of players who are still alive. You can choose one of them to verify their identity.
+            If the player is a mafia player, you will be given a message that the player is a mafia player.
+            If the player is not a mafia player, you will be given a message that the player is a town person.
+        """
+
+    def choose_target(self, candidates: List[int]) -> int:
 
         # Initialize the prompt template for target selection
         self.target_prompt = PromptTemplate(
             template="""
-            You should choose a player to verify their identity.
+            You can choose a player to verify their identity. The valid candidates are: {candidates}.
             Respond with a JSON object containing the chosen player index.
-            
+
             {format_instructions}
-            
+
             Example response:
-            {
-                "chosen_player": 2
-            }
+            {{"chosen_player": 2}}
             """,
             input_variables=[],
             partial_variables={
+                "candidates": candidates,
                 "format_instructions": self.parser.get_format_instructions()
             },
         )
-
-    def choose_target(self) -> int:
         try:
-            # Create and run the chain
-            chain = self.target_prompt | self.model_provider.model | self.parser
+            # Create the chain using LLMChain instead of pipe chaining
+            chain = LLMChain(llm=self.model_provider.model, prompt=self.target_prompt)
 
-            # Get the result
-            result = chain.invoke({})
+            # Run the chain with empty input (since there are no input variables)
+            output = chain.run({})
+            print(f"Raw output from model: {output}")
 
-            # Extract the chosen player index from the JSON response
-            if isinstance(result["text"], dict) and "chosen_player" in result["text"]:
-                return int(result["text"]["chosen_player"])
+            # Parse the output into a dict
+            parsed_output = self.parser.parse(output)
+            if isinstance(parsed_output, dict) and "chosen_player" in parsed_output:
+                self.context += f"I chose player {parsed_output['chosen_player']} to verify its identity."
+                return int(parsed_output["chosen_player"])
             else:
                 print("Invalid response format from model")
-                return 22222
+                return -1
         except Exception as e:
             print(f"Error in choose_target: {e}")
-            return 1111
+            return -1
 
-    def receive_info(self, player_index: int, role: str) -> None:
-        try:
-            # Create a prompt template for receiving information
-            info_prompt = PromptTemplate(
-                template="""
-                You have learned new information about a player.
-                Player {player_index} is a {role}.
-                
-                Provide your analysis in JSON format.
-                {format_instructions}
-                
-                Example response:
-                {
-                    "acknowledged": true,
-                    "analysis": "This information reveals that player X is the Y role",
-                    "implications": "This means we should..."
-                }
-                """,
-                input_variables=["player_index", "role"],
-                partial_variables={
-                    "format_instructions": self.parser.get_format_instructions()
-                },
-            )
-
-            # Create and run the chain
-            chain = info_prompt | self.model_provider.model | self.parser
-
-            # Get the result
-            result = chain.invoke({"player_index": player_index, "role": role})
-
-            return result
-        except Exception as e:
-            print(f"Error in receive_info: {e}")
-            return {"error": str(e)}
+    def receive_info(self, prompt: str) -> str:
+        self.context += prompt
+        return self.model_provider.inference(self.context)

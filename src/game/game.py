@@ -1,7 +1,8 @@
 from collections import defaultdict
 
 from src.game.game_config import GameConfig
-from src.game.player_status import InGamePlayer, Survival
+from src.game.in_game_player import InGamePlayer, Survival
+from src.game.outcome import GameStatus
 from src.player.role import Role, role_mapping
 
 
@@ -13,10 +14,10 @@ class Game:
             index: InGamePlayer(
                 player=role_mapping[player_config.role](
                     index,
-                    player_config.modelname,
+                    player_config.model_name,
                 ),
                 role=player_config.role,
-                survival=Survival.remaining,
+                survival=Survival.REMAINING,
             )
             for index, player_config in enumerate(config.players)
         }
@@ -29,21 +30,71 @@ class Game:
         return role2ids
 
     @property
+    def _remaining_player_ids(self):
+        return [
+            i
+            for i in self._id2player
+            if self._id2player[i].survival == Survival.REMAINING
+        ]
+
+    @property
     def _remaining_mafia_ids(self):
         return [
             i
             for i in self._id2player
-            if self._id2player[i].role == Role.mafia
-            and self._id2player[i].survival == Survival.remaining
+            if self._id2player[i].role == Role.MAFIA
+            and self._id2player[i].survival == Survival.REMAINING
         ]
+
+    @property
+    def _remaining_town_ids(self):
+        return [
+            i
+            for i in self._id2player
+            if self._id2player[i].role != Role.MAFIA
+            and self._id2player[i].survival == Survival.REMAINING
+        ]
+
+    @property
+    def status(self) -> GameStatus:
+        n_mafia_remaining = len(self._remaining_mafia_ids)
+        n_town_remaining = len(self._remaining_town_ids)
+        if n_mafia_remaining > n_town_remaining:
+            return GameStatus.MAFIA_WIN
+        elif n_mafia_remaining == 0:
+            return GameStatus.TOWN_WIN
+        else:
+            return GameStatus.IN_PROGRESS
 
     def start(self):
 
-        # Make the mafia team know each other
-        mafia_ids = self._role2ids[Role.mafia]
-        for mafia_id in mafia_ids:
-            other_mafias = [i for i in mafia_ids if i != mafia_id]
+        # Introduce the mafia team to each other
+        for mafia_id in self._remaining_mafia_ids:
+            other_mafias = [i for i in self._remaining_mafia_ids if i != mafia_id]
             self._id2player[mafia_id].player.see_teammates(other_mafias)
 
-    def ended(self):
-        num_mafia = len(self._role2ids[Role.mafia])
+        while self.status == GameStatus.IN_PROGRESS:
+            self.night()
+            if self.status == GameStatus.IN_PROGRESS:
+                self.day()
+
+    def night(self):
+
+        # Let mafia choose victim
+        for mafia_id in self._remaining_mafia_ids:
+            other_mafia_ids = [i for i in self._remaining_mafia_ids if i != mafia_id]
+
+            proposed_victim_id, proposed_reason = self._id2player[
+                mafia_id
+            ].player.propose_victim(self._remaining_player_ids)
+
+            for other_mafia_id in other_mafia_ids:
+                self._id2player[other_mafia_id].player.receive_victim_proposal(
+                    self._remaining_player_ids,
+                    mafia_id,
+                    proposed_victim_id,
+                    proposed_reason,
+                )
+
+    def day(self):
+        pass

@@ -8,17 +8,17 @@ from src.player.villager import Villager
 
 
 class Role(Enum):
-    villager = auto()
-    mafia = auto()
-    detective = auto()
-    jailor = auto()
-    hunter = auto()
+    VILLAGER = auto()
+    MAFIA = auto()
+    DETECTIVE = auto()
+    JAILOR = auto()
+    HUNTER = auto()
 
 
 role_mapping = {
-    Role.villager: Villager,
-    Role.mafia: Mafia,
-    Role.detective: Detective,
-    Role.jailor: Jailor,
-    Role.hunter: Hunter,
+    Role.VILLAGER: Villager,
+    Role.MAFIA: Mafia,
+    Role.DETECTIVE: Detective,
+    Role.JAILOR: Jailor,
+    Role.HUNTER: Hunter,
 }

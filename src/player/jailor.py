@@ -7,8 +7,8 @@ class Jailor(BasePlayer):
         self.role = "Jailor"
 
     def choose_target(self) -> int:
-        context = """
+        self.context += """
             You are the jailor. You can protect one player from being killed.
         """
-        protected_player = self.model_provider.inference(context)
+        protected_player = self.model_provider.inference(self.context)
         return int(protected_player)
