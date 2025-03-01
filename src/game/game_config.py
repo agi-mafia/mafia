@@ -15,4 +15,4 @@ class GameConfig(BaseModel):
     model_config = ConfigDict(strict=True, frozen=True)
 
     players: List[PlayerConfig]
-    max_turns: Annotated[int, Field(strict=True, gt=0)]
+    max_rounds: Annotated[int, Field(strict=True, gt=0)]

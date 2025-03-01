@@ -4,6 +4,7 @@ from src.game.game_config import GameConfig
 from src.game.in_game_player import InGamePlayer, Survival
 from src.game.outcome import GameStatus
 from src.player.role import Role, role_mapping
+from src.util.general import most_frequent_random
 
 
 class Game:
@@ -21,7 +22,8 @@ class Game:
             )
             for i, player_config in enumerate(config.players)
         }
-        self._n_turns = 0
+        self._n_rounds = 0
+        self._victim_id = None
 
     @property
     def _role2ids(self):
@@ -56,7 +58,7 @@ class Game:
 
     @property
     def status(self) -> GameStatus:
-        if self._n_turns > self._config.max_turns:
+        if self._n_rounds > self._config.max_rounds:
             return GameStatus.DRAW
         n_mafia_remaining = len(self._remaining_mafia_ids)
         n_town_remaining = len(self._remaining_town_ids)
@@ -75,21 +77,19 @@ class Game:
             self._players[mafia_id].player.see_teammates(other_mafias)
 
         while self.status == GameStatus.IN_PROGRESS:
-            self.night()
+            self._night()
             if self.status == GameStatus.IN_PROGRESS:
-                self.day()
-            self._n_turns += 1
+                self._day()
+            self._n_rounds += 1
 
-    def night(self):
+    def _mafia_choose_victim(self):
 
-        # Let mafia choose victim
+        # Each mafia proposes a victim
         for mafia_id in self._remaining_mafia_ids:
             other_mafia_ids = [i for i in self._remaining_mafia_ids if i != mafia_id]
-
             proposed_victim_id, proposed_reason = self._players[
                 mafia_id
             ].player.propose_victim(self._remaining_player_ids)
-
             for other_mafia_id in other_mafia_ids:
                 self._players[other_mafia_id].player.receive_victim_proposal(
                     self._remaining_player_ids,
@@ -98,5 +98,24 @@ class Game:
                     proposed_reason,
                 )
 
-    def day(self):
-        pass
+        # A final victim is chosen via mafia vote
+        victim_votes = {
+            i: self._players[i].player.choose_victim(self._remaining_player_ids)
+            for i in self._remaining_mafia_ids
+        }
+        for mafia_id in self._remaining_mafia_ids:
+            other_mafia_ids = [i for i in self._remaining_mafia_ids if i != mafia_id]
+            other_mafia_votes = {
+                other_mafia_id: victim_votes[other_mafia_id]
+                for other_mafia_id in other_mafia_ids
+            }
+            self._players[mafia_id].listen_vote_night(other_mafia_votes)
+        victim_id = most_frequent_random(victim_votes.values())
+
+        return victim_id
+
+    def _night(self):
+        self._victim_id = self._mafia_choose_victim()
+
+    def _day(self):
+        self._victim_id = None
