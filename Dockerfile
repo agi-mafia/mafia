@@ -1,4 +1,4 @@
-# Use Python 3.13 image
+# Use Python 3.10 image
 FROM python:3.10
 
 # Set working directory
@@ -24,5 +24,5 @@ COPY . .
 # Expose port (adjust as needed)
 EXPOSE 8000
 
-# Command to run your application
-CMD ["python", "main.py"]
+# Command to run the FastAPI application with uvicorn directly
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
