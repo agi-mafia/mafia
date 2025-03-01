@@ -24,7 +24,8 @@ class Game:
             for i, player_config in enumerate(config.players)
         }
         self._n_rounds = 0
-        self._victim_id = None
+        self._victim_ids = None
+        self._jailor_protections = dict()
 
     @property
     def _role2ids(self):
@@ -54,6 +55,15 @@ class Game:
             i
             for i in self._players
             if self._players[i].role == Role.DETECTIVE
+            and self._players[i].survival == Survival.REMAINING
+        ]
+
+    @property
+    def _remaining_jailor_ids(self):
+        return [
+            i
+            for i in self._players
+            if self._players[i].role == Role.JAILOR
             and self._players[i].survival == Survival.REMAINING
         ]
 
@@ -93,6 +103,8 @@ class Game:
             self._n_rounds += 1
 
     def _mafia_round(self):
+        if len(self._remaining_mafia_ids) <= 0:
+            return
 
         # Each mafia proposes a victim
         for mafia_id in self._remaining_mafia_ids:
@@ -139,9 +151,25 @@ class Game:
                     target_id, self._players[target_id].role
                 )
 
+    def _jailor_round(self):
+        if len(self._remaining_jailor_ids) <= 0:
+            return
+
+        for jailor_id in self._remaining_jailor_ids:
+            remaining_others = [i for i in self._remaining_player_ids if i != jailor_id]
+            target_id = self._players[jailor_id].player.choose_target(remaining_others)
+            if target_id in remaining_others:
+                self._jailor_protections[jailor_id] = target_id
+
     def _night(self):
         self._mafia_round()
         self._detective_round()
+        self._jailor_round()
 
     def _day(self):
+
+        if self._victim_id in self._jailor_protections.values():
+            pass
+
         self._victim_id = None
+        self._jailor_protections = dict()
