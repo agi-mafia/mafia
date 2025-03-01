@@ -59,4 +59,4 @@ class Detective(BasePlayer):
 
     def receive_info(self, prompt: str) -> str:
         self.context += prompt
-        return self.model_provider.inference(self.context)
+        return self.context

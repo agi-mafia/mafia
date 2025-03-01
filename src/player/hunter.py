@@ -9,11 +9,15 @@ class Hunter(BasePlayer):
         super().__init__(index=index, model_name=model_name)
         self.role = "Hunter"
         self.parser = JsonOutputParser()
-        # TODO: add hunter context to the context
+        self.context += """
+            You are a hunter. You are a role that, upon being eliminated, has the ability to take one other player to be eliminated as well.
+            You can only choose one player from the valid candidates.
+            Your goal is to help all the town people to find the mafia players and eliminate them.
+        """
 
     def shoot(self) -> int:
         self.target_prompt = PromptTemplate(
-            template=self.context + """
+            template="""
             Now you are died, based on your hunter role, you can choose to eliminate one player from the game.
             Respond with a JSON object containing the chosen player index.
 
@@ -38,7 +42,9 @@ class Hunter(BasePlayer):
             # Parse the output into a dict
             parsed_output = self.parser.parse(output)
             if isinstance(parsed_output, dict) and "chosen_player" in parsed_output:
-                return int(parsed_output["chosen_player"])
+                player_index = int(parsed_output["chosen_player"])
+                self.context += f"I chose player {player_index} to be eliminated."
+                return player_index
             else:
                 print("Invalid response format from model")
                 return -1
