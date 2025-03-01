@@ -21,6 +21,7 @@ class Game:
             )
             for index, player_config in enumerate(config.players)
         }
+        self._n_turns = 0
 
     @property
     def _role2ids(self):
@@ -57,6 +58,8 @@ class Game:
 
     @property
     def status(self) -> GameStatus:
+        if self._n_turns > self._config.max_turns:
+            return GameStatus.DRAW
         n_mafia_remaining = len(self._remaining_mafia_ids)
         n_town_remaining = len(self._remaining_town_ids)
         if n_mafia_remaining > n_town_remaining:
@@ -77,6 +80,7 @@ class Game:
             self.night()
             if self.status == GameStatus.IN_PROGRESS:
                 self.day()
+            self._n_turns += 1
 
     def night(self):
 

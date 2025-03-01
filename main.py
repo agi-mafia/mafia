@@ -68,6 +68,7 @@ async def josh_test():
             PlayerConfig(model_name="gpt-3.5-turbo", role=Role.MAFIA),
             PlayerConfig(model_name="gpt-3.5-turbo", role=Role.VILLAGER),
         ],
+        max_turns=1,
     )
 
     game = Game(gc)
