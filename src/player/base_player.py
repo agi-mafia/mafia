@@ -89,20 +89,7 @@ class BasePlayer:
             print(f"Error in choose_target: {e}")
             return -1
 
-    def speak_last_words(self, dead_reason: int) -> str:
-        if dead_reason == 0:
-            self.context += """
-                You have been eliminated because you were voted out.
-            """
-        elif dead_reason == 1:
-            self.context += """
-                You have been eliminated because the Mafias selected you as their target during the night.
-            """
-        else:
-            self.context += """
-                You have been eliminated because the hunter chose to eliminate you at the moment of his own elimination.
-            """
-
+    def speak_last_words(self) -> str:
         self.context += """
             You can now speak your last words.
         """
