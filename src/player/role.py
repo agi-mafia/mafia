@@ -1,7 +1,5 @@
 from enum import auto, Enum
 
-from pydantic import BaseModel
-
 
 class Role(Enum):
     villager = auto()
