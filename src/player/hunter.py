@@ -1,5 +1,6 @@
-from typing import List
 from textwrap import dedent
+from typing import List
+
 from langchain.chains import LLMChain
 from langchain_core.output_parsers.json import JsonOutputParser
 from langchain_core.prompts import PromptTemplate
@@ -11,15 +12,19 @@ class Hunter(BasePlayer):
         super().__init__(index=index, model_name=model_name)
         self.role = "Hunter"
         self.parser = JsonOutputParser()
-        self.context += dedent("""\
+        self.context += dedent(
+            """\
             You are a hunter. You are a role that, upon being eliminated, has the ability to take one other player to be eliminated as well.
             You can only choose one player from the valid candidates.
             Your goal is to help all the town people to find the mafia players and eliminate them.\
-            """)
+            """
+        )
 
     def shoot(self, candidates: List[int]) -> int:
         self.target_prompt = PromptTemplate(
-            template=self.context + dedent("""\
+            template=self.context
+            + dedent(
+                """\
             Now you are eliminated, based on your hunter role, you can choose to eliminate one player from the following available candidates: {candidates}.
             Respond with a JSON object containing the chosen player index.
 
@@ -27,11 +32,12 @@ class Hunter(BasePlayer):
 
             Example response:
             {{"chosen_player": 2}}
-            """),
+            """
+            ),
             input_variables=[],
             partial_variables={
                 "candidates": candidates,
-                "format_instructions": self.parser.get_format_instructions()
+                "format_instructions": self.parser.get_format_instructions(),
             },
         )
         try:
@@ -55,4 +61,3 @@ class Hunter(BasePlayer):
         except Exception as e:
             print(f"Error in choose_target: {e}")
             return -1
-    
