@@ -24,7 +24,8 @@ class Game:
             for i, player_config in enumerate(config.players)
         }
         self._n_rounds = 0
-        self._victim_ids = None
+        self._victim_id = -1
+        self._lynch_id = -1
         self._jailor_protections = dict()
 
     @property
@@ -109,15 +110,14 @@ class Game:
         # Each mafia proposes a victim
         for mafia_id in self._remaining_mafia_ids:
             other_mafia_ids = [i for i in self._remaining_mafia_ids if i != mafia_id]
-            proposed_victim_id, proposed_reason = self._players[
-                mafia_id
-            ].player.propose_victim(self._remaining_player_ids)
+            victim_proposal = self._players[mafia_id].player.propose_victim(
+                self._remaining_player_ids
+            )
             for other_mafia_id in other_mafia_ids:
                 self._players[other_mafia_id].player.receive_victim_proposal(
-                    self._remaining_player_ids,
-                    mafia_id,
-                    proposed_victim_id,
-                    proposed_reason,
+                    candidates=self._remaining_player_ids,
+                    proposer=mafia_id,
+                    victim_proposal=victim_proposal,
                 )
 
         # A final victim is chosen via mafia vote
@@ -131,7 +131,7 @@ class Game:
                 other_mafia_id: victim_votes[other_mafia_id]
                 for other_mafia_id in other_mafia_ids
             }
-            self._players[mafia_id].listen_vote_night(other_mafia_votes)
+            self._players[mafia_id].player.listen_vote_night(other_mafia_votes)
 
         self._victim_id = most_frequent_random(victim_votes.values())
 
@@ -166,10 +166,83 @@ class Game:
         self._detective_round()
         self._jailor_round()
 
-    def _day(self):
-
+    def _eliminate_victim(self):
         if self._victim_id in self._jailor_protections.values():
-            pass
+            self._victim_id = -1
+        if self._victim_id != -1:
+            self._players[self._victim_id].survival = Survival.ELIMINATED
+        for player_id in self._remaining_player_ids:
+            self._players[player_id].player.listen_death(self._victim_id)
 
-        self._victim_id = None
+    def _decide_lynch(self):
+
+        # Each player speaks
+        for player_id in self._remaining_player_ids:
+            other_player_ids = [i for i in self._remaining_player_ids if i != player_id]
+            speech = self._players[player_id].player.speak()
+            for other_player_id in other_player_ids:
+                self._players[other_player_id].player.listen_talk(
+                    talk_index=player_id,
+                    talk_content=speech,
+                )
+
+        # A final suspect is chosen via mafia vote
+        suspect_votes = {
+            i: self._players[i].player.vote(self._remaining_player_ids)
+            for i in self._remaining_player_ids
+        }
+        for player_id in self._remaining_player_ids:
+            other_player_ids = [i for i in self._remaining_player_ids if i != player_id]
+            other_player_votes = {
+                other_player_id: suspect_votes[other_player_id]
+                for other_player_id in other_player_ids
+            }
+            self._players[player_id].player.listen_vote(other_player_votes)
+
+        self._lynch_id = most_frequent_random(suspect_votes.values())
+
+    def _execute_lynch(self):
+        if self._lynch_id not in self._remaining_player_ids:
+            return
+
+        last_words = self._players[self._lynch_id].player.speak_last_words()
+        self._players[self._lynch_id].survival = Survival.LYNCHED
+
+        for player_id in self._remaining_player_ids:
+            self._players[player_id].player.listen_talk(
+                talk_index=self._lynch_id,
+                talk_content=last_words,
+            )
+
+        if self._players[self._lynch_id].role == Role.HUNTER:
+            hunter_target = self._players[self._lynch_id].player.shoot(
+                candidates=self._remaining_players
+            )
+            hunter_retaliate(hunter_target)
+
+    def hunter_retaliate(self, target_id):
+        if target_id not in self._remaining_player_ids:
+            return
+
+        last_words = self._players[target_id].player.speak_last_words()
+        self._players[target_id].survival = Survival.RETALIATED
+
+        for player_id in self._remaining_player_ids:
+            self._players[player_id].player.listen_talk(
+                talk_index=target_id,
+                talk_content=last_words,
+            )
+
+        if self._players[target_id].role == Role.HUNTER:
+            hunter_target = self._players[target_id].player.shoot(
+                candidates=self._remaining_players
+            )
+            hunter_retaliate(hunter_target)
+
+    def _day(self):
+        self._eliminate_victim()
+        self._decide_lynch()
+        self._execute_lynch()
+
+        self._victim_id = -1
         self._jailor_protections = dict()

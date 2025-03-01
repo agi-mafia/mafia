@@ -9,6 +9,8 @@ from src.player.role import Role
 class Survival(Enum):
     REMAINING = auto()
     ELIMINATED = auto()
+    LYNCHED = auto()
+    RETALIATED = auto()
 
 
 class InGamePlayer(BaseModel):

@@ -13,4 +13,7 @@ def most_frequent_random(l: Iterable):
     counts = Counter(l)
     max_freq = max(counts.values())
     most_frequent_members = [num for num, freq in counts.items() if freq == max_freq]
-    return random.choice(most_frequent_members)
+    if len(most_frequent_members) == 0:
+        return -1
+    else:
+        return random.choice(most_frequent_members)
