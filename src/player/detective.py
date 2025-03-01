@@ -28,7 +28,7 @@ class Detective(BasePlayer):
 
         # Initialize the prompt template for target selection
         self.target_prompt = PromptTemplate(
-            template="""
+            template=self.context + dedent("""\
             You can choose a player to verify their identity. The valid candidates are: {candidates}.
             Respond with a JSON object containing the chosen player index.
 
@@ -36,7 +36,7 @@ class Detective(BasePlayer):
 
             Example response:
             {{"chosen_player": 2}}
-            """,
+            """),
             input_variables=[],
             partial_variables={
                 "candidates": candidates,

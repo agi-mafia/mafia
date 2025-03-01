@@ -1,3 +1,5 @@
+from typing import List
+from textwrap import dedent
 from langchain.chains import LLMChain
 from langchain_core.output_parsers.json import JsonOutputParser
 from langchain_core.prompts import PromptTemplate
@@ -9,25 +11,26 @@ class Hunter(BasePlayer):
         super().__init__(index=index, model_name=model_name)
         self.role = "Hunter"
         self.parser = JsonOutputParser()
-        self.context += """
+        self.context += dedent("""\
             You are a hunter. You are a role that, upon being eliminated, has the ability to take one other player to be eliminated as well.
             You can only choose one player from the valid candidates.
-            Your goal is to help all the town people to find the mafia players and eliminate them.
-        """
+            Your goal is to help all the town people to find the mafia players and eliminate them.\
+            """)
 
-    def shoot(self) -> int:
+    def shoot(self, candidates: List[int]) -> int:
         self.target_prompt = PromptTemplate(
-            template="""
-            Now you are died, based on your hunter role, you can choose to eliminate one player from the game.
+            template=self.context + dedent("""\
+            Now you are eliminated, based on your hunter role, you can choose to eliminate one player from the following available candidates: {candidates}.
             Respond with a JSON object containing the chosen player index.
 
             {format_instructions}
 
             Example response:
             {{"chosen_player": 2}}
-            """,
+            """),
             input_variables=[],
             partial_variables={
+                "candidates": candidates,
                 "format_instructions": self.parser.get_format_instructions()
             },
         )
@@ -44,6 +47,7 @@ class Hunter(BasePlayer):
             if isinstance(parsed_output, dict) and "chosen_player" in parsed_output:
                 player_index = int(parsed_output["chosen_player"])
                 self.context += f"I chose player {player_index} to be eliminated."
+                print(self.context)
                 return player_index
             else:
                 print("Invalid response format from model")
