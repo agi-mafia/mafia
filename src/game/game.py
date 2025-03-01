@@ -3,7 +3,8 @@ from collections import defaultdict
 from src.game.game_config import GameConfig
 from src.game.in_game_player import InGamePlayer, Survival
 from src.game.outcome import GameStatus
-from src.player.role import Role, role_mapping
+from src.player.role import Role
+from src.player.role_mapping import role_mapping
 from src.util.general import most_frequent_random
 
 
@@ -48,6 +49,15 @@ class Game:
         ]
 
     @property
+    def _remaining_detective_ids(self):
+        return [
+            i
+            for i in self._players
+            if self._players[i].role == Role.DETECTIVE
+            and self._players[i].survival == Survival.REMAINING
+        ]
+
+    @property
     def _remaining_town_ids(self):
         return [
             i
@@ -82,7 +92,7 @@ class Game:
                 self._day()
             self._n_rounds += 1
 
-    def _mafia_choose_victim(self):
+    def _mafia_round(self):
 
         # Each mafia proposes a victim
         for mafia_id in self._remaining_mafia_ids:
@@ -110,12 +120,26 @@ class Game:
                 for other_mafia_id in other_mafia_ids
             }
             self._players[mafia_id].listen_vote_night(other_mafia_votes)
-        victim_id = most_frequent_random(victim_votes.values())
 
-        return victim_id
+        self._victim_id = most_frequent_random(victim_votes.values())
+
+    def _detective_round(self):
+        if len(self._remaining_detective_ids) <= 0:
+            return
+
+        for detective_id in self._remaining_detective_ids:
+            remaining_others = [
+                i for i in self._remaining_player_ids if i != detective_id
+            ]
+            target_id = self._players[detective_id].player.choose_target(
+                remaining_others
+            )
+            if target_id in self._remaining_players:
+                pass
 
     def _night(self):
-        self._victim_id = self._mafia_choose_victim()
+        self._mafia_round()
+        self._detective_round()
 
     def _day(self):
         self._victim_id = None
