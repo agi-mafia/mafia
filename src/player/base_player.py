@@ -1,9 +1,13 @@
+from textwrap import dedent
 from typing import List
-from src.model.model import Model
+
 from langchain.chains import LLMChain
 from langchain_core.output_parsers.json import JsonOutputParser
 from langchain_core.prompts import PromptTemplate
-from textwrap import dedent
+from src.game.game_config import GameConfig
+from src.game.game_log import Logger
+from src.model.model import Model
+
 
 class BasePlayer:
     def __init__(self, index: int, model_name: str):
@@ -12,6 +16,8 @@ class BasePlayer:
         self.role = "Player"
         self.parser = JsonOutputParser()
         self.context = ""
+        self.logger = Logger()
+        self.is_live = True
 
     def listen(self, speech: str) -> None:
         self.context += speech
@@ -51,7 +57,9 @@ class BasePlayer:
     def vote(self, candidates: List[int]) -> int:
 
         self.target_prompt = PromptTemplate(
-            template=self.context + dedent("""\
+            template=self.context
+            + dedent(
+                """\
             You can now vote off a player. Again, if you are a townpeople, you should try to vote off a mafia,
             but if you are a mafia, you should try to vote off a non mafia. Please choose a player by typing
             their number. You should only provide a number meaning the player that you want to vote off.
@@ -61,7 +69,8 @@ class BasePlayer:
 
             Example response:
             {{"chosen_player": 2}}
-            """),
+            """
+            ),
             input_variables=[],
             partial_variables={
                 "candidates": candidates,
