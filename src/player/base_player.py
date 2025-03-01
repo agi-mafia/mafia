@@ -8,14 +8,31 @@ class BasePlayer:
         self.role = "Player"
         self.context = ""
 
-    def listen(self, speaker: int, speech: str) -> None:
+    def listen(self, speech: str) -> None:
         self.context += speech
-        self.model_provider.inference(self.context)
+
+    def listen_vote(self, votes_dict: dict):
+        for key, value in votes_dict.items():
+            self.context += f"""
+                Player {key} has voted to eliminate player {value}.
+            """
+        return
+
+    def listen_death(self, death_index: int):
+        self.context += f"""
+            Player {death_index} has been eliminated.
+        """
+        return
+
+    def listen_talk(self, talk_index, talk_content):
+        self.context += f"""
+            Player {talk_index} has spoken: {talk_content}.
+        """
         return
 
     def speak(self) -> str:
         self.context += """
-            You should speak your opinion about the situation now
+            You should now express your perspective on the matter.
         """
         words = self.model_provider.inference(self.context)
         return words
@@ -32,19 +49,19 @@ class BasePlayer:
     def speak_last_words(self, dead_reason: int) -> str:
         if dead_reason == 0:
             self.context += """
-                You are now dead because you were lynched
+                You have been eliminated because you were voted out.
             """
         elif dead_reason == 1:
             self.context += """
-                You are now dead because you were voted out
+                You have been eliminated because the Mafias selected you as their target during the night.
             """
         else:
             self.context += """
-                You are now dead because you were killed by the werewolves
+                You have been eliminated because the hunter chose to eliminate you at the moment of his own elimination.
             """
 
         self.context += """
-            You can now speak your last words
+            You can now speak your last words.
         """
         last_words = self.model_provider.inference(self.context)
         return last_words
