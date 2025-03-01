@@ -1,6 +1,7 @@
 from enum import Enum, auto
 
 
-def GameOutcome(Enum):
+class GameStatus(Enum):
+    IN_PROGRESS = auto()
     MAFIA_WIN = auto()
-    VILLAGER_WIN = auto()
+    TOWN_WIN = auto()

@@ -6,7 +6,7 @@ from src.player.role import Role
 
 
 class PlayerConfig(BaseModel):
-    modelname: str
+    model_name: str
     role: Role
 
 

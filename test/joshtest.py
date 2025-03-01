@@ -4,10 +4,10 @@ from src.player.role import Role
 
 gc = GameConfig(
     players=[
-        PlayerConfig(modelname="model2", role=Role.villager),
-        PlayerConfig(modelname="model1", role=Role.mafia),
-        PlayerConfig(modelname="model3", role=Role.villager),
-        PlayerConfig(modelname="model4", role=Role.villager),
+        PlayerConfig(model_name="model2", role=Role.VILLAGER),
+        PlayerConfig(model_name="model1", role=Role.MAFIA),
+        PlayerConfig(model_name="model3", role=Role.VILLAGER),
+        PlayerConfig(model_name="model4", role=Role.VILLAGER),
     ],
 )
 
