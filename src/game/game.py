@@ -134,8 +134,10 @@ class Game:
             target_id = self._players[detective_id].player.choose_target(
                 remaining_others
             )
-            if target_id in self._remaining_players:
-                pass
+            if target_id in remaining_others:
+                self._players[detective_id].player.receive_info(
+                    target_id, self._players[target_id].role
+                )
 
     def _night(self):
         self._mafia_round()
