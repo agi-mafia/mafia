@@ -24,7 +24,7 @@ async def start_game():
 @app.get("/test/model_test")
 async def model_test():
     model = Model(model_name="gpt-3.5-turbo")
-    return model.inference("Translate this sentence from English to French. I love programming.")
+    return model.inference("Translate this sentence from English to chinese and japanese. I love programming.")
 
     
 @app.get("/game")
