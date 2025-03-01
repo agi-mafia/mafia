@@ -1,4 +1,5 @@
-from enum import Enum, auto
+from enum import auto, Enum
+
 from pydantic import BaseModel
 
 
