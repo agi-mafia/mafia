@@ -19,9 +19,7 @@ class Detective(Player):
             {format_instructions}
             
             Example response:
-            {
-                "chosen_player": 2
-            }
+            {{"chosen_player": 2}}
             """,
             input_variables=[],
             partial_variables={"format_instructions": self.parser.get_format_instructions()}
@@ -29,54 +27,26 @@ class Detective(Player):
 
     def choose_target(self) -> int:
         try:
-            # Create and run the chain
-            chain = self.target_prompt | self.model_provider.model | self.parser
-            
-            # Get the result
-            result = chain.invoke({})
-            
-            # Extract the chosen player index from the JSON response
-            if isinstance(result['text'], dict) and "chosen_player" in result['text']:
-                return int(result['text']["chosen_player"])
-            else:
-                print("Invalid response format from model")
-                return 22222
-        except Exception as e:
-            print(f"Error in choose_target: {e}")
-            return 1111
-
-    def receive_info(self, player_index: int, role: str) -> None:
-        try:
-            # Create a prompt template for receiving information
-            info_prompt = PromptTemplate(
-                template="""
-                You have learned new information about a player.
-                Player {player_index} is a {role}.
-                
-                Provide your analysis in JSON format.
-                {format_instructions}
-                
-                Example response:
-                {
-                    "acknowledged": true,
-                    "analysis": "This information reveals that player X is the Y role",
-                    "implications": "This means we should..."
-                }
-                """,
-                input_variables=["player_index", "role"],
-                partial_variables={"format_instructions": self.parser.get_format_instructions()}
+            # Create the chain using LLMChain instead of pipe chaining
+            chain = LLMChain(
+                llm=self.model_provider.model,
+                prompt=self.target_prompt
             )
             
-            # Create and run the chain
-            chain = info_prompt | self.model_provider.model | self.parser
+            # Run the chain with empty input (since there are no input variables)
+            output = chain.run({})
+            print(f"Raw output from model: {output}")
             
-            # Get the result
-            result = chain.invoke({
-                "player_index": player_index,
-                "role": role
-            })
-            
-            return result
+            # Parse the output into a dict
+            parsed_output = self.parser.parse(output)
+            if isinstance(parsed_output, dict) and "chosen_player" in parsed_output:
+                return int(parsed_output["chosen_player"])
+            else:
+                print("Invalid response format from model")
+                return -1
         except Exception as e:
-            print(f"Error in receive_info: {e}")
-            return {"error": str(e)}
+            print(f"Error in choose_target: {e}")
+            return -1
+
+    def receive_info(self, prompt: str) -> str:
+        return self.model_provider.inference(prompt)
