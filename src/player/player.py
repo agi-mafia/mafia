@@ -1,10 +1,10 @@
-from model.model_provider import ModelProvider
+from src.model.model import Model
 
 
 class Player:
-    def __init__(self, index: int):
-        self.index = 0
-        self.model_provider = ModelProvider("deepseek")
+    def __init__(self, index: int, model_name: str):
+        self.index = index
+        self.model_provider = Model(model_name)
         self.role = "Player"
 
     def listen(self, context: str) -> None:

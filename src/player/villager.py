@@ -1,4 +1,4 @@
-from model.model_provider import ModelProvider
+from src.model.model import Model
 
 
 class Villager:

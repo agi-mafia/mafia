@@ -1,8 +1,8 @@
-from player.player import Player
+from src.player.player import Player
 
 
 class Jailer(Player):
-    def __init__(self, index):
+    def __init__(self, index, model_name):
         super().__init__(index=index)
         self.role = "Jailer"
 
