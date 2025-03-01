@@ -22,22 +22,22 @@ class Recorder:
         # Create logging directory if it doesn't exist
         Path(self.logging_dir).mkdir(exist_ok=True, parents=True)
     
-    def save_log(self, json_data: Dict[str, Any], log_id: Union[str, int]) -> str:
+    def save_log(self, json_data: Dict[str, Any], game_id: Union[str, int]) -> str:
         """
         Save JSON data to a file named after the provided ID.
         
         Args:
             json_data (Dict[str, Any]): The JSON data to save
-            log_id (Union[str, int]): The ID to use as the filename
+            game_id (Union[str, int]): The ID to use as the filename
             
         Returns:
             str: The path to the saved file
         """
-        # Ensure the log_id is a string
-        log_id = str(log_id)
+        # Ensure the game_id is a string
+        game_id = str(game_id)
         
         # Create the log file path
-        log_file_path: Path = Path(self.logging_dir) / f"{log_id}.json"
+        log_file_path: Path = Path(self.logging_dir) / f"{game_id}.json"
         
         # Write the JSON data to the file
         with open(log_file_path, 'w') as f:
@@ -45,12 +45,12 @@ class Recorder:
             
         return str(log_file_path)
     
-    def read_log(self, log_id: Union[str, int]) -> Dict[str, Any]:
+    def read_log(self, game_id: Union[str, int]) -> Dict[str, Any]:
         """
         Read JSON data from a file named after the provided ID.
         
         Args:
-            log_id (Union[str, int]): The ID to use to find the file
+            game_id (Union[str, int]): The ID to use to find the file
             
         Returns:
             Dict[str, Any]: The JSON data from the file
@@ -58,11 +58,11 @@ class Recorder:
         Raises:
             FileNotFoundError: If the log file does not exist
         """
-        # Ensure the log_id is a string
-        log_id = str(log_id)
+        # Ensure the game_id is a string
+        game_id = str(game_id)
         
         # Create the log file path
-        log_file_path: Path = Path(self.logging_dir) / f"{log_id}.json"
+        log_file_path: Path = Path(self.logging_dir) / f"{game_id}.json"
         
         # Check if the file exists
         if not log_file_path.exists():
