@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+  app:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    # Add explicit env_file configuration
+    env_file:
+      - .env
+    environment:
+      - PYTHONPATH=/app
+    # This ensures that the container restarts if it crashes
+    restart: unless-stopped
+    # Use the command from Dockerfile
+    # The --reload flag in the uvicorn command will automatically reload the server when code changes 
