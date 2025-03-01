@@ -9,6 +9,7 @@ from src.model.model import Model
 from src.player.detective import Detective
 from src.player.hunter import Hunter
 from src.player.jailor import Jailor
+from src.player.mafia import Mafia
 from src.player.role import Role
 
 app = FastAPI()
@@ -62,6 +63,12 @@ async def player_hunter_shoot():
 async def player_jailor_choose_target():
     player = Jailor(index=0, model_name="gpt-3.5-turbo")
     return player.choose_target([0, 1, 2])
+
+
+@app.get("/test/player_mafia_propose_victim")
+async def player_mafia_propose_victim():
+    player = Mafia(index=0, model_name="gpt-3.5-turbo")
+    return player.propose_victim([0, 1, 2])
 
 
 @app.get("/test/josh")
