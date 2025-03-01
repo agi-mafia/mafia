@@ -1,7 +1,7 @@
 from collections import defaultdict
 
 from src.game.game_config import GameConfig
-from src.game.player_status import InGamePlayer, Survival
+from src.game.in_game_player import InGamePlayer, Survival
 from src.player.role import Role, role_mapping
 
 
@@ -29,21 +29,29 @@ class Game:
         return role2ids
 
     @property
+    def _remaining_ids(self):
+        return [
+            i
+            for i in self._id2player
+            if self._id2player[i].survival == Survival.remaining
+        ]
+
+    @property
     def _remaining_mafia_ids(self):
         return [
             i
             for i in self._id2player
-            if self._id2player[i].role == Role.mafia
+            if self._id2player[i].role == Role.MAFIA
             and self._id2player[i].survival == Survival.remaining
         ]
 
     def start(self):
 
         # Make the mafia team know each other
-        mafia_ids = self._role2ids[Role.mafia]
-        for mafia_id in mafia_ids:
-            other_mafias = [i for i in mafia_ids if i != mafia_id]
+        for mafia_id in self._remaining_mafia_ids:
+            other_mafias = [i for i in self._remaining_mafia_ids if i != mafia_id]
             self._id2player[mafia_id].player.see_teammates(other_mafias)
 
-    def ended(self):
-        num_mafia = len(self._role2ids[Role.mafia])
+    def has_ended(self):
+        num_mafia_remaining = len(self._remaining_mafia_ids)
+        num_total_players = len(self._remaining_ids)
