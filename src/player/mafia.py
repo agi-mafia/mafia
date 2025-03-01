@@ -1,13 +1,13 @@
-from src.player.player import Player
+from src.player.base_player import BasePlayer
 from src.model.model import Model
 
 
-class Mafia(Player):
+class Mafia(BasePlayer):
     def __init__(self, index, model_name):
         super().__init__(index=index, model_name=model_name)
         self.role = "Mafia"
 
-    def know_teammate(self, teammates: list):
+    def see_teammates(self, teammates: list):
         teammates_str = ", ".join([str(i) for i in teammates])
         context = f"""
             The following players are your teammates: {teammates_str}

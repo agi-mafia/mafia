@@ -1,15 +1,15 @@
-from src.player.player import Player
+from src.player.base_player import BasePlayer
 from langchain_core.prompts import PromptTemplate
 from langchain_core.output_parsers.json import JsonOutputParser
 from langchain.chains import LLMChain
 
 
-class Detective(Player):
+class Detective(BasePlayer):
     def __init__(self, index, model_name):
         super().__init__(index=index, model_name=model_name)
         self.role = "Detective"
         self.parser = JsonOutputParser()
-        
+
         # Initialize the prompt template for target selection
         self.target_prompt = PromptTemplate(
             template="""
@@ -22,7 +22,9 @@ class Detective(Player):
             {{"chosen_player": 2}}
             """,
             input_variables=[],
-            partial_variables={"format_instructions": self.parser.get_format_instructions()}
+            partial_variables={
+                "format_instructions": self.parser.get_format_instructions()
+            },
         )
 
     def choose_target(self) -> int:
