@@ -1,4 +1,5 @@
 from typing import List, Tuple
+
 from src.model.model import Model
 from src.player.base_player import BasePlayer
 
@@ -7,6 +8,13 @@ class Mafia(BasePlayer):
     def __init__(self, index, model_name):
         super().__init__(index=index, model_name=model_name)
         self.role = "Mafia"
+
+    def listen_vote_night(self, votes_dict: dict):
+        for key, value in votes_dict.items():
+            self.context += f"""
+                Mafia {key} has voted to eliminate player {value}.
+            """
+        return
 
     def see_teammates(self, teammates: list):
         teammates_str = ", ".join([str(i) for i in teammates])

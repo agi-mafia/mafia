@@ -1,4 +1,5 @@
 from typing import List
+
 from langchain.chains import LLMChain
 from langchain_core.output_parsers.json import JsonOutputParser
 from langchain_core.prompts import PromptTemplate
@@ -34,7 +35,7 @@ class Detective(BasePlayer):
             input_variables=[],
             partial_variables={
                 "candidates": candidates,
-                "format_instructions": self.parser.get_format_instructions()
+                "format_instructions": self.parser.get_format_instructions(),
             },
         )
         try:
@@ -43,7 +44,6 @@ class Detective(BasePlayer):
 
             # Run the chain with empty input (since there are no input variables)
             output = chain.run({})
-            print(f"Raw output from model: {output}")
 
             # Parse the output into a dict
             parsed_output = self.parser.parse(output)
