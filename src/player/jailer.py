@@ -1,8 +1,13 @@
-from player.player import Player
+from src.player.player import Player
 
 
+<<<<<<< HEAD
 class Jailor(Player):
     def __init__(self, index):
+=======
+class Jailer(Player):
+    def __init__(self, index, model_name):
+>>>>>>> LLMSetup
         super().__init__(index=index)
         self.role = "Jailor"
 

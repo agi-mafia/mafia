@@ -1,10 +1,10 @@
-from player.player import Player
-from src.model.model_provider import ModelProvider
+from src.player.player import Player
+from src.model.model import Model
 
 
 class Mafia(Player):
-    def __init__(self, index):
-        super().__init__(index=index)
+    def __init__(self, index, model_name):
+        super().__init__(index=index, model_name=model_name)
         self.role = "Mafia"
 
     def know_teammate(self, teammates: list):

@@ -18,12 +18,14 @@ COPY requirements.txt .
 # Install Python dependencies using uv with --system flag
 RUN uv pip install --system --no-cache-dir -r requirements.txt
 
+# Copy the application code
+COPY . .
+
+# Add the application directory to PYTHONPATH
+ENV PYTHONPATH=/app:$PYTHONPATH
+
 # Expose port (adjust as needed)
 EXPOSE 8000
 
-# For development, we don't copy the code at build time
-# Instead, we'll mount the code as a volume when running the container
-
 # Command to run the FastAPI application with uvicorn's reload flag
-# This will automatically restart the server when code changes are detected
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
