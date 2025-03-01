@@ -76,9 +76,12 @@ async def josh_test():
     print(game._role2ids)
     print()
     print("ID 2 player")
-    print(game._id2player)
+    print(game._players)
     game.start()
 
+    print("=" * 80)
+    print("=" * 80)
+    print("=" * 80)
     print("=" * 80)
 
 

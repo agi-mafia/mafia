@@ -10,50 +10,48 @@ class Game:
 
     def __init__(self, config: GameConfig):
         self._config = config
-        self._id2player = {
-            index: InGamePlayer(
+        self._players = {
+            i: InGamePlayer(
                 player=role_mapping[player_config.role](
-                    index,
+                    i,
                     player_config.model_name,
                 ),
                 role=player_config.role,
                 survival=Survival.REMAINING,
             )
-            for index, player_config in enumerate(config.players)
+            for i, player_config in enumerate(config.players)
         }
         self._n_turns = 0
 
     @property
     def _role2ids(self):
         role2ids = defaultdict(list)
-        for index, status in self._id2player.items():
+        for index, status in self._players.items():
             role2ids[status.role].append(index)
         return role2ids
 
     @property
     def _remaining_player_ids(self):
         return [
-            i
-            for i in self._id2player
-            if self._id2player[i].survival == Survival.REMAINING
+            i for i in self._players if self._players[i].survival == Survival.REMAINING
         ]
 
     @property
     def _remaining_mafia_ids(self):
         return [
             i
-            for i in self._id2player
-            if self._id2player[i].role == Role.MAFIA
-            and self._id2player[i].survival == Survival.REMAINING
+            for i in self._players
+            if self._players[i].role == Role.MAFIA
+            and self._players[i].survival == Survival.REMAINING
         ]
 
     @property
     def _remaining_town_ids(self):
         return [
             i
-            for i in self._id2player
-            if self._id2player[i].role != Role.MAFIA
-            and self._id2player[i].survival == Survival.REMAINING
+            for i in self._players
+            if self._players[i].role != Role.MAFIA
+            and self._players[i].survival == Survival.REMAINING
         ]
 
     @property
@@ -74,7 +72,7 @@ class Game:
         # Introduce the mafia team to each other
         for mafia_id in self._remaining_mafia_ids:
             other_mafias = [i for i in self._remaining_mafia_ids if i != mafia_id]
-            self._id2player[mafia_id].player.see_teammates(other_mafias)
+            self._players[mafia_id].player.see_teammates(other_mafias)
 
         while self.status == GameStatus.IN_PROGRESS:
             self.night()
@@ -88,12 +86,12 @@ class Game:
         for mafia_id in self._remaining_mafia_ids:
             other_mafia_ids = [i for i in self._remaining_mafia_ids if i != mafia_id]
 
-            proposed_victim_id, proposed_reason = self._id2player[
+            proposed_victim_id, proposed_reason = self._players[
                 mafia_id
             ].player.propose_victim(self._remaining_player_ids)
 
             for other_mafia_id in other_mafia_ids:
-                self._id2player[other_mafia_id].player.receive_victim_proposal(
+                self._players[other_mafia_id].player.receive_victim_proposal(
                     self._remaining_player_ids,
                     mafia_id,
                     proposed_victim_id,

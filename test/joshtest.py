@@ -14,5 +14,5 @@ gc = GameConfig(
 
 game = Game(gc)
 print(game._role2ids)
-print(game._id2player)
+print(game._players)
 game.start()
