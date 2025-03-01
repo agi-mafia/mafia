@@ -11,19 +11,17 @@ os.environ["OPENAI_API_KEY"] = api_key
 
 class Model:
     def __init__(self, model_name: str):
-        self.model = model_name
+        self.model_name = model_name
+        self.model = ChatLiteLLM(model=self.model_name)
 
     def inference(self, prompt: str) -> str:
-        
-        # return self.model.predict(prompt)
-        messages = [
-            HumanMessage(
-                content=prompt
-            )
-        ]
-        chat = ChatLiteLLM(model=self.model)
-        response = chat(messages)
+        messages = [HumanMessage(content=prompt)]
+        response = self.model.invoke(messages)
         return response.content
+
+    def __getattr__(self, name):
+        # Delegate any unknown attributes/methods to the underlying model
+        return getattr(self.model, name)
 
     
     

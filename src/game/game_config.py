@@ -1,9 +1,16 @@
+from typing import List
+
 from pydantic import BaseModel, ConfigDict
-from typing import Dict
+
 from src.player.role import Role
+
+
+class PlayerConfig(BaseModel):
+    modelname: str
+    role: Role
 
 
 class GameConfig(BaseModel):
     model_config = ConfigDict(strict=True, frozen=True)
 
-    players: Dict[str, Role]
+    players: List[PlayerConfig]
