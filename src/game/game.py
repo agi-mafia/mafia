@@ -28,6 +28,22 @@ class Game:
             role2ids[status.role].append(index)
         return role2ids
 
+    @property
+    def _remaining_mafia_ids(self):
+        return [
+            i
+            for i in self._id2player
+            if self._id2player[i].role == Role.mafia
+            and self._id2player[i].survival == Survival.remaining
+        ]
+
     def start(self):
-        for mafia_id in self._role2ids[Role.mafia]:
-            pass
+
+        # Make the mafia team know each other
+        mafia_ids = self._role2ids[Role.mafia]
+        for mafia_id in mafia_ids:
+            other_mafias = [i for i in mafia_ids if i != mafia_id]
+            self._id2player[mafia_id].player.see_teammates(other_mafias)
+
+    def ended(self):
+        num_mafia = len(self._role2ids[Role.mafia])
