@@ -1,14 +1,14 @@
 from player.player import Player
 
 
-class Jailer(Player):
+class Jailor(Player):
     def __init__(self, index):
         super().__init__(index=index)
-        self.role = "Jailer"
+        self.role = "Jailor"
 
     def choose_target(self) -> int:
         context = """
-            You are the jailer. You can protect one player from being killed.
+            You are the jailor. You can protect one player from being killed.
         """
         protected_player = self.model_provider.inference(context)
         return int(protected_player)
