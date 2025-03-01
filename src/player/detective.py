@@ -29,12 +29,8 @@ class Detective(Player):
 
     def choose_target(self) -> int:
         try:
-            # Create the chain using LCEL
-            chain = LLMChain(
-                llm=self.model_provider.model,
-                prompt=self.target_prompt,
-                output_parser=self.parser
-            )
+            # Create and run the chain
+            chain = self.target_prompt | self.model_provider.model | self.parser
             
             # Get the result
             result = chain.invoke({})
@@ -71,12 +67,8 @@ class Detective(Player):
                 partial_variables={"format_instructions": self.parser.get_format_instructions()}
             )
             
-            # Create the chain using LCEL
-            chain = LLMChain(
-                llm=self.model_provider.model,
-                prompt=info_prompt,
-                output_parser=self.parser
-            )
+            # Create and run the chain
+            chain = info_prompt | self.model_provider.model | self.parser
             
             # Get the result
             result = chain.invoke({
@@ -84,7 +76,7 @@ class Detective(Player):
                 "role": role
             })
             
-            return result['text']
+            return result
         except Exception as e:
             print(f"Error in receive_info: {e}")
             return {"error": str(e)}
