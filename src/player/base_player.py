@@ -8,6 +8,25 @@ class BasePlayer:
         self.role = "Player"
         self.context = ""
 
+    def listen_vote(self, votes_dict: dict):
+        for key, value in votes_dict.items():
+            self.context += f"""
+                Player {key} has voted to eliminate player {value}.
+            """
+        return
+
+    def listen_death(self, death_index: int):
+        self.context += f"""
+            Player {death_index} has been eliminated.
+        """
+        return
+
+    def listen_talk(self, talk_index, talk_content):
+        self.context += f"""
+            Player {talk_index} has spoken: {talk_content}.
+        """
+        return
+
     def listen(self, speaker: int, speech: str) -> None:
         self.context += speech
         self.model_provider.inference(self.context)
@@ -40,7 +59,7 @@ class BasePlayer:
             """
         else:
             self.context += """
-                You are now dead because you were killed by the werewolves
+                You are now dead because you were eliminated by the werewolves
             """
 
         self.context += """
