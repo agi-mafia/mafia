@@ -1,5 +1,5 @@
 from src.model.model import Model
-from src.player.player import BasePlayer
+from src.player.base_player import BasePlayer
 
 
 class Villager(BasePlayer):
