@@ -1,14 +1,9 @@
 from src.player.player import Player
 
 
-<<<<<<< HEAD
 class Jailor(Player):
-    def __init__(self, index):
-=======
-class Jailer(Player):
     def __init__(self, index, model_name):
->>>>>>> LLMSetup
-        super().__init__(index=index)
+        super().__init__(index=index, model_name=model_name)
         self.role = "Jailor"
 
     def choose_target(self) -> int:
