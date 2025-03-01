@@ -7,7 +7,7 @@ class Mafia(BasePlayer):
         super().__init__(index=index, model_name=model_name)
         self.role = "Mafia"
 
-    def know_teammate(self, teammates: list):
+    def see_teammates(self, teammates: list):
         teammates_str = ", ".join([str(i) for i in teammates])
         context = f"""
             The following players are your teammates: {teammates_str}
