@@ -137,6 +137,7 @@ class Game:
         self._victim_id = most_frequent_random(victim_votes.values())
         self._logger.log(
             user=mafia_id,
+            role="system",
             status=True,
             action="Voted victim",
             target_user=self._victim_id,
@@ -186,6 +187,7 @@ class Game:
             self._victim_id = -1
             self._logger.log(
                 user=-1,
+                role="system",
                 status=True,
                 action="Protected victim",
                 target_user=self._victim_id,
@@ -195,6 +197,7 @@ class Game:
             self._players[self._victim_id].survival = Survival.ELIMINATED
             self._logger.log(
                 user=-1,
+                role="system",
                 status=False,
                 action="Eliminated victim",
                 target_user=self._victim_id,
@@ -245,6 +248,7 @@ class Game:
 
         self._logger.log(
             user=self._lynch_id,
+            role="system",
             status=False,
             action="Voted lynch",
             target_user=-1,
@@ -258,6 +262,7 @@ class Game:
             self.hunter_retaliate(hunter_target)
             self._logger.log(
                 user=self._lynch_id,
+                role="system",
                 status=False,
                 action="Shoot",
                 target_user=hunter_target,

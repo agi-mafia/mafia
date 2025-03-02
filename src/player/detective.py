@@ -60,6 +60,7 @@ class Detective(BasePlayer):
                 self.context += f"I chose player {parsed_output['chosen_player']} to verify its identity."
                 self.logger.log(
                     self.index,
+                    self.role,
                     self.is_live,
                     "choose_target",
                     int(parsed_output["chosen_player"]),
@@ -70,6 +71,7 @@ class Detective(BasePlayer):
                 print("Invalid response format from model")
                 self.logger.log(
                     self.index,
+                    self.role,
                     self.is_live,
                     "choose_target",
                     -1,
@@ -80,6 +82,7 @@ class Detective(BasePlayer):
             print(f"Error in choose_target: {e}")
             self.logger.log(
                 self.index,
+                self.role,
                 self.is_live,
                 "choose_target",
                 -1,

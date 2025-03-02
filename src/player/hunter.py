@@ -55,6 +55,7 @@ class Hunter(BasePlayer):
                 self.context += f"I chose player {player_index} to be eliminated."
                 self.logger.log(
                     self.index,
+                    self.role,
                     self.is_live,
                     "eliminate",
                     player_index,
@@ -67,6 +68,7 @@ class Hunter(BasePlayer):
                 print("Invalid response format from model")
                 self.logger.log(
                     self.index,
+                    self.role,
                     self.is_live,
                     "eliminate",
                     -1,
@@ -79,6 +81,7 @@ class Hunter(BasePlayer):
             print(f"Error in choose_target: {e}")
             self.logger.log(
                 self.index,
+                self.role,
                 self.is_live,
                 "eliminate",
                 -1,

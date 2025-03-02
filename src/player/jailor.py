@@ -59,6 +59,7 @@ class Jailor(BasePlayer):
                 )
                 self.logger.log(
                     self.index,
+                    self.role,
                     self.is_live,
                     "shoot",
                     player_index,
@@ -71,6 +72,7 @@ class Jailor(BasePlayer):
                 print("Invalid response format from model")
                 self.logger.log(
                     self.index,
+                    self.role,
                     self.is_live,
                     "shoot",
                     -1,
@@ -83,6 +85,7 @@ class Jailor(BasePlayer):
             print(f"Error in choose_target: {e}")
             self.logger.log(
                 self.index,
+                self.role,
                 self.is_live,
                 "shoot",
                 -1,

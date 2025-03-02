@@ -1,14 +1,16 @@
 import json
 from datetime import datetime
-from src.util.recorder import Recorder
 
 from pydantic import BaseModel, Field
+from src.util.recorder import Recorder
 
 recorder = Recorder()
+
 
 # Define the log entry model using Pydantic with an extra timestamp field
 class LogEntry(BaseModel):
     user: int  # User ID
+    role: str
     status: bool  # Indicates whether the user is alive (True) or not (False)
     action: str  # Describes what the user is doing
     target_user: int  # The ID of the target user on which the action is performed
@@ -24,22 +26,30 @@ class Logger:
         self.entries = []  # In-memory storage for log entries
 
     def log(
-        self, user: int, status: bool, action: str, target_user: int, string: str
+        self,
+        user: int,
+        role: str,
+        status: bool,
+        action: str,
+        target_user: int,
+        string: str,
     ) -> None:
         """
         Creates a LogEntry, validates the input data, and logs it.
         """
         entry = LogEntry(
             user=user,
+            role=role,
             status=status,
             action=action,
             target_user=target_user,
             string=string,
         )
         self.entries.append(entry)
-        
-        log_file_path = recorder.save_log(json_data=entry.model_dump_json(), game_id="test_1")
-     
+
+        log_file_path = recorder.save_log(
+            json_data=entry.model_dump_json(), game_id="test_1"
+        )
 
     def get_logs(self):
         """

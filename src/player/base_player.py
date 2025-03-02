@@ -34,6 +34,7 @@ class BasePlayer:
                 """
             self.logger.log(
                 self.index,
+                self.role,
                 self.is_live,
                 "listen_vote",
                 self.index,
@@ -48,6 +49,7 @@ class BasePlayer:
             """
             self.logger.log(
                 self.index,
+                self.role,
                 self.is_live,
                 "listen",
                 death_index,
@@ -60,6 +62,7 @@ class BasePlayer:
         """
         self.logger.log(
             self.index,
+            self.role,
             self.is_live,
             "listen",
             death_index,
@@ -73,6 +76,7 @@ class BasePlayer:
         """
         self.logger.log(
             self.index,
+            self.role,
             self.is_live,
             "listen_talk",
             talk_index,
@@ -87,6 +91,7 @@ class BasePlayer:
         words = self.model_provider.inference(self.context)
         self.logger.log(
             self.index,
+            self.role,
             self.is_live,
             "speak",
             self.index,
@@ -131,6 +136,7 @@ class BasePlayer:
                 print(self.context)
                 self.logger.log(
                     self.index,
+                    self.role,
                     self.is_live,
                     "vote",
                     res,
@@ -151,6 +157,7 @@ class BasePlayer:
         last_words = self.model_provider.inference(self.context)
         self.logger.log(
             self.index,
+            self.role,
             self.is_live,
             "speak",
             self.index,

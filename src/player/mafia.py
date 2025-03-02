@@ -112,6 +112,7 @@ class Mafia(BasePlayer):
                 self.context += f"I chose player {res} to be eliminated tonight."
                 self.logger.log(
                     self.index,
+                    self.role,
                     self.is_live,
                     "eliminate",
                     res,
@@ -124,6 +125,7 @@ class Mafia(BasePlayer):
                 print("Invalid response format from model")
                 self.logger.log(
                     self.index,
+                    self.role,
                     self.is_live,
                     "eliminate",
                     -1,
@@ -136,6 +138,7 @@ class Mafia(BasePlayer):
             print(f"Error in choose_target: {e}")
             self.logger.log(
                 self.index,
+                self.role,
                 self.is_live,
                 "eliminate",
                 -1,
