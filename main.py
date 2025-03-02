@@ -12,6 +12,7 @@ from src.player.jailor import Jailor
 from src.player.mafia import Mafia
 from src.player.role import Role
 from src.player.base_player import BasePlayer
+
 app = FastAPI()
 
 
@@ -98,22 +99,17 @@ async def josh_test():
         players=[
             PlayerConfig(model_name="gpt-3.5-turbo", role=Role.VILLAGER),
             PlayerConfig(model_name="gpt-3.5-turbo", role=Role.MAFIA),
-            PlayerConfig(model_name="gpt-3.5-turbo", role=Role.VILLAGER),
+            PlayerConfig(model_name="gpt-3.5-turbo", role=Role.DETECTIVE),
+            PlayerConfig(model_name="gpt-3.5-turbo", role=Role.HUNTER),
+            PlayerConfig(model_name="gpt-3.5-turbo", role=Role.JAILOR),
+            PlayerConfig(model_name="gpt-3.5-turbo", role=Role.MAFIA),
         ],
-        max_rounds=1,
-        max_mafia_negotiation_rounds=3,
+        max_rounds=10,
     )
 
     game = Game(gc)
-    print("Role 2 IDs")
-    print(game._role2ids)
-    print()
-    print("ID 2 player")
-    print(game._players)
     game.start()
-
-    print("=" * 80)
-    print("=" * 80)
+    print("GAME FINISHED")
 
 
 @app.get("/game")

@@ -62,7 +62,7 @@ class Detective(BasePlayer):
                     self.is_live,
                     "choose_target",
                     int(parsed_output["chosen_player"]),
-                    f"Detective {self.index} has chosen target {int(parsed_output["chosen_player"])} to verify its identity",
+                    f"Detective {self.index} has chosen target {int(parsed_output['chosen_player'])} to verify its identity",
                 )
                 return int(parsed_output["chosen_player"])
             else:
