@@ -11,6 +11,7 @@ from src.player.hunter import Hunter
 from src.player.jailor import Jailor
 from src.player.mafia import Mafia
 from src.player.role import Role
+from src.player.base_player import BasePlayer
 
 app = FastAPI()
 
@@ -83,6 +84,12 @@ async def player_mafia_choose_victim():
     return player.choose_victim([0, 1, 2])
 
 
+@app.get("/test/player_base_vote")
+async def player_base_vote():
+    player = BasePlayer(index=0, model_name="gpt-3.5-turbo")
+    return player.vote([0, 1, 2])
+
+
 @app.get("/test/josh")
 async def josh_test():
 
@@ -92,22 +99,17 @@ async def josh_test():
         players=[
             PlayerConfig(model_name="gpt-3.5-turbo", role=Role.VILLAGER),
             PlayerConfig(model_name="gpt-3.5-turbo", role=Role.MAFIA),
-            PlayerConfig(model_name="gpt-3.5-turbo", role=Role.VILLAGER),
+            PlayerConfig(model_name="gpt-3.5-turbo", role=Role.DETECTIVE),
+            PlayerConfig(model_name="gpt-3.5-turbo", role=Role.HUNTER),
+            PlayerConfig(model_name="gpt-3.5-turbo", role=Role.JAILOR),
+            PlayerConfig(model_name="gpt-3.5-turbo", role=Role.MAFIA),
         ],
-        max_rounds=1,
-        max_mafia_negotiation_rounds=3,
+        max_rounds=10,
     )
 
     game = Game(gc)
-    print("Role 2 IDs")
-    print(game._role2ids)
-    print()
-    print("ID 2 player")
-    print(game._players)
     game.start()
-
-    print("=" * 80)
-    print("=" * 80)
+    print("GAME FINISHED")
 
 
 @app.get("/game")

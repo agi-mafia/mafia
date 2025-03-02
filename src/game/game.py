@@ -1,6 +1,7 @@
 from collections import defaultdict
 
 from src.game.game_config import GameConfig
+from src.game.game_log import Logger
 from src.game.in_game_player import InGamePlayer, Survival
 from src.game.outcome import GameStatus
 from src.player.role import Role
@@ -27,6 +28,7 @@ class Game:
         self._victim_id = -1
         self._lynch_id = -1
         self._jailor_protections = dict()
+        self._logger = Logger()
 
     @property
     def _role2ids(self):
@@ -115,9 +117,8 @@ class Game:
             )
             for other_mafia_id in other_mafia_ids:
                 self._players[other_mafia_id].player.receive_victim_proposal(
-                    candidates=self._remaining_player_ids,
                     proposer=mafia_id,
-                    victim_proposal=victim_proposal,
+                    proposal=victim_proposal,
                 )
 
         # A final victim is chosen via mafia vote
@@ -134,6 +135,14 @@ class Game:
             self._players[mafia_id].player.listen_vote_night(other_mafia_votes)
 
         self._victim_id = most_frequent_random(victim_votes.values())
+        self._logger.log(
+            user=mafia_id,
+            status=True,
+            action="Voted victim",
+            target_user=self._victim_id,
+            string=f"Player {self._victim_id} decided to eliminate {self._victim_id} at night. Its role is {self._players[self._victim_id].role}",
+            string=f"Player {self._victim_id} was voted off. Its role is {self._players[self._victim_id].role}",
+        )
 
     def _detective_round(self):
         if len(self._remaining_detective_ids) <= 0:
@@ -150,6 +159,13 @@ class Game:
                 self._players[detective_id].player.receive_info(
                     target_id, self._players[target_id].role
                 )
+            # self._logger.log(
+            #     user=detective_id,
+            #     status=True,
+            #     action="Verified player",
+            #     target_user=target_id,
+            #     string=f"Player {target_id} is a verified by detective {detective_id}, its role is {self._players[target_id].role}"
+            # )
 
     def _jailor_round(self):
         if len(self._remaining_jailor_ids) <= 0:
@@ -169,8 +185,22 @@ class Game:
     def _eliminate_victim(self):
         if self._victim_id in self._jailor_protections.values():
             self._victim_id = -1
+            self._logger.log(
+                user=-1,
+                status=True,
+                action="Protected victim",
+                target_user=self._victim_id,
+                string=f"Player {self._victim_id} was eliminated failed because it was protected by jailor.",
+            )
         if self._victim_id != -1:
             self._players[self._victim_id].survival = Survival.ELIMINATED
+            self._logger.log(
+                user=-1,
+                status=False,
+                action="Eliminated victim",
+                target_user=self._victim_id,
+                string=f"Player {self._victim_id} was eliminated bt mafia.",
+            )
         for player_id in self._remaining_player_ids:
             self._players[player_id].player.listen_death(self._victim_id)
 
@@ -214,11 +244,26 @@ class Game:
                 talk_content=last_words,
             )
 
+        self._logger.log(
+            user=self._lynch_id,
+            status=False,
+            action="Voted lynch",
+            target_user=-1,
+            string=f"Player {self._lynch_id} was voted off.",
+        )  # TODO: log the vote info and broadcast it.
+
         if self._players[self._lynch_id].role == Role.HUNTER:
             hunter_target = self._players[self._lynch_id].player.shoot(
                 candidates=self._remaining_players
             )
-            hunter_retaliate(hunter_target)
+            self.hunter_retaliate(hunter_target)
+            self._logger.log(
+                user=self._lynch_id,
+                status=False,
+                action="Shoot",
+                target_user=hunter_target,
+                string=f"Player {hunter_target} was shot by hunter {self._lynch_id}.",
+            )
 
     def hunter_retaliate(self, target_id):
         if target_id not in self._remaining_player_ids:
@@ -237,7 +282,7 @@ class Game:
             hunter_target = self._players[target_id].player.shoot(
                 candidates=self._remaining_players
             )
-            hunter_retaliate(hunter_target)
+            self.hunter_retaliate(hunter_target)
 
     def _day(self):
         self._eliminate_victim()

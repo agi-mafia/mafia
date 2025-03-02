@@ -28,6 +28,7 @@ class Mafia(BasePlayer):
             self.context += f"""
                 Mafia {key} has voted to eliminate player {value}.
             """
+
         return
 
     def see_teammates(self, teammates: list):
@@ -39,13 +40,16 @@ class Mafia(BasePlayer):
 
     def propose_victim(self, candidates: List[int]) -> str:
         self.target_prompt = PromptTemplate(
-            template=self.context + dedent("""\
+            template=self.context
+            + dedent(
+                """\
                 It's night now. You should propose a victim. You should communicate with the other mafia to decide who to propose.
                 You can choose a player to propose as a victim from the following candidates: {candidates} and the reason why you propose this player to be eliminated.
 
                 Example response:
                 I propose player 2 to be eliminated.
-            """),
+            """
+            ),
             input_variables=[],
             partial_variables={
                 "candidates": candidates,
@@ -61,20 +65,24 @@ class Mafia(BasePlayer):
             return output
         except Exception as e:
             print(f"Error in choose_target: {e}")
-            return -1
+            return ""
 
     def receive_victim_proposal(
         self,
         proposer: int,
         proposal: str,
-    ) -> None:
-        self.context += f"\nTonight, Mafia {proposer}'s propsal statement is: {proposal}."
+    ) -> str:
+        self.context += (
+            f"\nTonight, Mafia {proposer}'s propsal statement is: {proposal}."
+        )
         return self.context
 
     def choose_victim(self, candidates: List[int]) -> int:
 
         self.target_prompt = PromptTemplate(
-            template=self.context + dedent("""\
+            template=self.context
+            + dedent(
+                """\
             Tonight, you can vote a player to be eliminated from the following candidates: {candidates}.
             Respond with a JSON object containing the chosen player index.
 
@@ -82,7 +90,8 @@ class Mafia(BasePlayer):
 
             Example response:
             {{"chosen_player": 2}}
-            """),
+            """
+            ),
             input_variables=[],
             partial_variables={
                 "candidates": candidates,
@@ -101,10 +110,37 @@ class Mafia(BasePlayer):
             if isinstance(parsed_output, dict) and "chosen_player" in parsed_output:
                 res = int(parsed_output["chosen_player"])
                 self.context += f"I chose player {res} to be eliminated tonight."
+                self.logger.log(
+                    self.index,
+                    self.is_live,
+                    "eliminate",
+                    res,
+                    f"""
+                    Player {self.index} is a mafia and he chooses to eliminate {res} tonight.
+                """,
+                )
                 return res
             else:
                 print("Invalid response format from model")
+                self.logger.log(
+                    self.index,
+                    self.is_live,
+                    "eliminate",
+                    -1,
+                    f"""
+                    Player {self.index} is a mafia but he chooses not to eliminate anyone tonight.
+                """,
+                )
                 return -1
         except Exception as e:
             print(f"Error in choose_target: {e}")
+            self.logger.log(
+                self.index,
+                self.is_live,
+                "eliminate",
+                -1,
+                f"""
+                    Player {self.index} is a mafia but he chooses not to eliminate anyone tonight.
+                """,
+            )
             return -1
