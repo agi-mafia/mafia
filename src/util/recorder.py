@@ -25,6 +25,7 @@ class Recorder:
     def save_log(self, json_data: Dict[str, Any], game_id: Union[str, int]) -> str:
         """
         Save JSON data to a file named after the provided ID.
+        If the file already exists, append the new data on a new line.
         
         Args:
             json_data (Dict[str, Any]): The JSON data to save
@@ -39,9 +40,16 @@ class Recorder:
         # Create the log file path
         log_file_path: Path = Path(self.logging_dir) / f"{game_id}.json"
         
-        # Write the JSON data to the file
-        with open(log_file_path, 'w') as f:
-            json.dump(json_data, f, indent=2)
+        # Check if file exists to determine if we should append
+        if log_file_path.exists():
+            # Append the JSON data to the file on a new line
+            with open(log_file_path, 'a') as f:
+                f.write('\n')
+                json.dump(json_data, f)
+        else:
+            # Write the JSON data to a new file
+            with open(log_file_path, 'w') as f:
+                json.dump(json_data, f, indent=2)
             
         return str(log_file_path)
     

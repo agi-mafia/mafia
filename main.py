@@ -1,4 +1,6 @@
 import asyncio
+from src.util.recorder import Recorder
+
 
 from fastapi import FastAPI
 
@@ -36,10 +38,18 @@ async def start_game():
 
 @app.get("/test/model_test")
 async def model_test():
-    model = Model(model_name="gpt-3.5-turbo")
-    return model.inference(
-        "Translate this sentence from English to French. I love programming."
-    )
+    
+    # Create a recorder instance
+    recorder = Recorder()
+    
+    # Example usage of save_log method
+    log_data = {"event": "model_test", "timestamp": "2023-01-01T12:00:00"}
+    log_file_path = recorder.save_log(json_data=log_data, game_id="test_1")
+    return {"log_saved": log_file_path}
+    # model = Model(model_name="gpt-3.5-turbo")
+    # return model.inference(
+    #     "Translate this sentence from English to French. I love programming."
+    # )
 
 
 @app.get("/test/player_detective_choose_target")

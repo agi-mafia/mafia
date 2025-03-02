@@ -1,8 +1,10 @@
 import json
 from datetime import datetime
+from src.util.recorder import Recorder
 
 from pydantic import BaseModel, Field
 
+recorder = Recorder()
 
 # Define the log entry model using Pydantic with an extra timestamp field
 class LogEntry(BaseModel):
@@ -35,8 +37,9 @@ class Logger:
             string=string,
         )
         self.entries.append(entry)
-        print(string)
-        print(entry.model_dump_json())
+        
+        log_file_path = recorder.save_log(json_data=entry.model_dump_json(), game_id="test_1")
+     
 
     def get_logs(self):
         """

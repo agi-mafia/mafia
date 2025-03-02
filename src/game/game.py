@@ -141,7 +141,6 @@ class Game:
             action="Voted victim",
             target_user=self._victim_id,
             string=f"Player {self._victim_id} decided to eliminate {self._victim_id} at night. Its role is {self._players[self._victim_id].role}",
-            string=f"Player {self._victim_id} was voted off. Its role is {self._players[self._victim_id].role}",
         )
 
     def _detective_round(self):
