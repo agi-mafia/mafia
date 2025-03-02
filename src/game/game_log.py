@@ -46,7 +46,7 @@ class Logger:
             string=string,
         )
         self.entries.append(entry)
-
+        print(f"{role}: {string}")
         log_file_path = recorder.save_log(
             json_data=entry.model_dump_json(), game_id="test_1"
         )
