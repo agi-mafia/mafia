@@ -56,13 +56,14 @@ class Detective(BasePlayer):
             # Parse the output into a dict
             parsed_output = self.parser.parse(output)
             if isinstance(parsed_output, dict) and "chosen_player" in parsed_output:
+                target_id = int(parsed_output["chosen_player"])
                 self.context += f"I chose player {parsed_output['chosen_player']} to verify its identity."
                 self.logger.log(
                     self.index,
                     self.is_live,
                     "choose_target",
                     int(parsed_output["chosen_player"]),
-                    f"Detective {self.index} has chosen target {int(parsed_output['chosen_player'])} to verify its identity",
+                    f"Detective {self.index} has chosen target {target_id} to verify its identity",
                 )
                 return int(parsed_output["chosen_player"])
             else:
