@@ -53,6 +53,40 @@ class Recorder:
             
         return str(log_file_path)
     
+    def save_string(self, string_data: str, game_id: Union[str, int]) -> str:
+        """
+        Save a string to a file named after the provided ID.
+        If the file already exists, append the new string on a new line.
+        
+        Args:
+            string_data (str): The string data to save
+            game_id (Union[str, int]): The ID to use as the filename
+            
+        Returns:
+            str: The path to the saved file
+        """
+        # Remove all newlines from the string data
+        string_data = string_data.replace('\n', '')
+        string_data = string_data + "\n\n"
+        
+        # Ensure the game_id is a string
+        game_id = str(game_id)
+        
+        # Create the log file path
+        log_file_path: Path = Path(self.logging_dir) / f"{game_id}.txt"
+        
+        # Check if file exists to determine if we should append
+        if log_file_path.exists():
+            # Append the string data to the file on a new line
+            with open(log_file_path, 'a') as f:
+                f.write(f"\n{string_data}")
+        else:
+            # Write the string data to a new file
+            with open(log_file_path, 'w') as f:
+                f.write(string_data)
+            
+        return str(log_file_path)
+    
     def read_log(self, game_id: Union[str, int]) -> Dict[str, Any]:
         """
         Read JSON data from a file named after the provided ID.

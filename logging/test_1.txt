@@ -1,0 +1,232 @@
+Mafia: 
+                    Player 1 is a mafia and he chooses to eliminate 1 tonight.
+                
+system: Player 1 decided to eliminate 1 at night. Its role is Role.MAFIA
+Detective: Detective 2 has chosen target 1 to verify its identity
+Jailor: 
+                        Player 4 is a jailor but he chooses to protect 1 tonight.
+                    
+system: Player -1 was eliminated failed because it was protected by jailor.
+Player: Player -1 was eliminated last night.
+Mafia: Player -1 was eliminated last night.
+Detective: Player -1 was eliminated last night.
+Hunter: Player -1 was eliminated last night.
+Jailor: Player -1 was eliminated last night.
+Player: Player 0 spoke: That's good news! It's always a relief when no one is eliminated from a competition or event. It gives everyone another chance to continue competing and showing their skills.
+Mafia: Player 1 listened to talk from 0. The content is That's good news! It's always a relief when no one is eliminated from a competition or event. It gives everyone another chance to continue competing and showing their skills..
+Detective: Player 2 listened to talk from 0. The content is That's good news! It's always a relief when no one is eliminated from a competition or event. It gives everyone another chance to continue competing and showing their skills..
+Hunter: Player 3 listened to talk from 0. The content is That's good news! It's always a relief when no one is eliminated from a competition or event. It gives everyone another chance to continue competing and showing their skills..
+Jailor: Player 4 listened to talk from 0. The content is That's good news! It's always a relief when no one is eliminated from a competition or event. It gives everyone another chance to continue competing and showing their skills..
+Mafia: Player 1 spoke: I completely agree with Player 0's sentiment. It's always a relief when no one is eliminated as it allows everyone to continue participating and showcasing their abilities. It also gives us a chance as Mafia members to blend in and avoid suspicion while we work towards our goal of eliminating the innocent townspeople. Let's use this opportunity to strategize and ensure our team's dominance in the game.
+Player: Player 0 listened to talk from 1. The content is I completely agree with Player 0's sentiment. It's always a relief when no one is eliminated as it allows everyone to continue participating and showcasing their abilities. It also gives us a chance as Mafia members to blend in and avoid suspicion while we work towards our goal of eliminating the innocent townspeople. Let's use this opportunity to strategize and ensure our team's dominance in the game..
+Detective: Player 2 listened to talk from 1. The content is I completely agree with Player 0's sentiment. It's always a relief when no one is eliminated as it allows everyone to continue participating and showcasing their abilities. It also gives us a chance as Mafia members to blend in and avoid suspicion while we work towards our goal of eliminating the innocent townspeople. Let's use this opportunity to strategize and ensure our team's dominance in the game..
+Hunter: Player 3 listened to talk from 1. The content is I completely agree with Player 0's sentiment. It's always a relief when no one is eliminated as it allows everyone to continue participating and showcasing their abilities. It also gives us a chance as Mafia members to blend in and avoid suspicion while we work towards our goal of eliminating the innocent townspeople. Let's use this opportunity to strategize and ensure our team's dominance in the game..
+Jailor: Player 4 listened to talk from 1. The content is I completely agree with Player 0's sentiment. It's always a relief when no one is eliminated as it allows everyone to continue participating and showcasing their abilities. It also gives us a chance as Mafia members to blend in and avoid suspicion while we work towards our goal of eliminating the innocent townspeople. Let's use this opportunity to strategize and ensure our team's dominance in the game..
+Detective: Player 2 spoke: Player 1 has admitted to being a Mafia member, confirming my suspicion. It's clear that they are not here to help the town people but rather to work towards their own goal of eliminating innocent townspeople. We must be extra vigilant and make sure to eliminate Player 1 as soon as possible to protect the town.
+Player: Player 0 listened to talk from 2. The content is Player 1 has admitted to being a Mafia member, confirming my suspicion. It's clear that they are not here to help the town people but rather to work towards their own goal of eliminating innocent townspeople. We must be extra vigilant and make sure to eliminate Player 1 as soon as possible to protect the town..
+Mafia: Player 1 listened to talk from 2. The content is Player 1 has admitted to being a Mafia member, confirming my suspicion. It's clear that they are not here to help the town people but rather to work towards their own goal of eliminating innocent townspeople. We must be extra vigilant and make sure to eliminate Player 1 as soon as possible to protect the town..
+Hunter: Player 3 listened to talk from 2. The content is Player 1 has admitted to being a Mafia member, confirming my suspicion. It's clear that they are not here to help the town people but rather to work towards their own goal of eliminating innocent townspeople. We must be extra vigilant and make sure to eliminate Player 1 as soon as possible to protect the town..
+Jailor: Player 4 listened to talk from 2. The content is Player 1 has admitted to being a Mafia member, confirming my suspicion. It's clear that they are not here to help the town people but rather to work towards their own goal of eliminating innocent townspeople. We must be extra vigilant and make sure to eliminate Player 1 as soon as possible to protect the town..
+Hunter: Player 3 spoke: As the hunter, I believe it is important for us town people to work together to eliminate the mafia members and protect our community. Player 1's admission to being a Mafia member is concerning, and we should indeed prioritize their elimination to safeguard the innocent townspeople. It is crucial that we remain vigilant and strategic in our approach to ensure the safety and wellbeing of our town. Let's work together to sniff out the mafia members and bring them to justice.
+Player: Player 0 listened to talk from 3. The content is As the hunter, I believe it is important for us town people to work together to eliminate the mafia members and protect our community. Player 1's admission to being a Mafia member is concerning, and we should indeed prioritize their elimination to safeguard the innocent townspeople. It is crucial that we remain vigilant and strategic in our approach to ensure the safety and wellbeing of our town. Let's work together to sniff out the mafia members and bring them to justice..
+Mafia: Player 1 listened to talk from 3. The content is As the hunter, I believe it is important for us town people to work together to eliminate the mafia members and protect our community. Player 1's admission to being a Mafia member is concerning, and we should indeed prioritize their elimination to safeguard the innocent townspeople. It is crucial that we remain vigilant and strategic in our approach to ensure the safety and wellbeing of our town. Let's work together to sniff out the mafia members and bring them to justice..
+Detective: Player 2 listened to talk from 3. The content is As the hunter, I believe it is important for us town people to work together to eliminate the mafia members and protect our community. Player 1's admission to being a Mafia member is concerning, and we should indeed prioritize their elimination to safeguard the innocent townspeople. It is crucial that we remain vigilant and strategic in our approach to ensure the safety and wellbeing of our town. Let's work together to sniff out the mafia members and bring them to justice..
+Jailor: Player 4 listened to talk from 3. The content is As the hunter, I believe it is important for us town people to work together to eliminate the mafia members and protect our community. Player 1's admission to being a Mafia member is concerning, and we should indeed prioritize their elimination to safeguard the innocent townspeople. It is crucial that we remain vigilant and strategic in our approach to ensure the safety and wellbeing of our town. Let's work together to sniff out the mafia members and bring them to justice..
+Jailor: Player 4 spoke: As the Jailor, I took note of Player 1's admission to being a Mafia member. It is clear that they pose a threat to the innocent townspeople, and it is crucial that we work together to eliminate them as soon as possible. By protecting the right players each night and strategizing effectively, we can root out the Mafia members and ensure the safety of our community. Let's continue to be vigilant and cooperative in our efforts to bring justice to the town.
+Player: Player 0 listened to talk from 4. The content is As the Jailor, I took note of Player 1's admission to being a Mafia member. It is clear that they pose a threat to the innocent townspeople, and it is crucial that we work together to eliminate them as soon as possible. By protecting the right players each night and strategizing effectively, we can root out the Mafia members and ensure the safety of our community. Let's continue to be vigilant and cooperative in our efforts to bring justice to the town..
+Mafia: Player 1 listened to talk from 4. The content is As the Jailor, I took note of Player 1's admission to being a Mafia member. It is clear that they pose a threat to the innocent townspeople, and it is crucial that we work together to eliminate them as soon as possible. By protecting the right players each night and strategizing effectively, we can root out the Mafia members and ensure the safety of our community. Let's continue to be vigilant and cooperative in our efforts to bring justice to the town..
+Detective: Player 2 listened to talk from 4. The content is As the Jailor, I took note of Player 1's admission to being a Mafia member. It is clear that they pose a threat to the innocent townspeople, and it is crucial that we work together to eliminate them as soon as possible. By protecting the right players each night and strategizing effectively, we can root out the Mafia members and ensure the safety of our community. Let's continue to be vigilant and cooperative in our efforts to bring justice to the town..
+Hunter: Player 3 listened to talk from 4. The content is As the Jailor, I took note of Player 1's admission to being a Mafia member. It is clear that they pose a threat to the innocent townspeople, and it is crucial that we work together to eliminate them as soon as possible. By protecting the right players each night and strategizing effectively, we can root out the Mafia members and ensure the safety of our community. Let's continue to be vigilant and cooperative in our efforts to bring justice to the town..
+Player: Player 0 voted 1 off this round.
+Mafia: Player 1 voted 3 off this round.
+Detective: Player 2 voted 1 off this round.
+Hunter: Player 3 voted 1 off this round.
+Jailor: Player 4 voted 1 off this round.
+Player: 
+                    Player 0 know that player 1 has voted to eliminate player 3.
+                
+                    Player 0 know that player 2 has voted to eliminate player 1.
+                
+                    Player 0 know that player 3 has voted to eliminate player 1.
+                
+                    Player 0 know that player 4 has voted to eliminate player 1.
+                
+Player: 
+                    Player 0 know that player 1 has voted to eliminate player 3.
+                
+                    Player 0 know that player 2 has voted to eliminate player 1.
+                
+                    Player 0 know that player 3 has voted to eliminate player 1.
+                
+                    Player 0 know that player 4 has voted to eliminate player 1.
+                
+Player: 
+                    Player 0 know that player 1 has voted to eliminate player 3.
+                
+                    Player 0 know that player 2 has voted to eliminate player 1.
+                
+                    Player 0 know that player 3 has voted to eliminate player 1.
+                
+                    Player 0 know that player 4 has voted to eliminate player 1.
+                
+Player: 
+                    Player 0 know that player 1 has voted to eliminate player 3.
+                
+                    Player 0 know that player 2 has voted to eliminate player 1.
+                
+                    Player 0 know that player 3 has voted to eliminate player 1.
+                
+                    Player 0 know that player 4 has voted to eliminate player 1.
+                
+Mafia: 
+                    Player 1 know that player 0 has voted to eliminate player 1.
+                
+                    Player 1 know that player 2 has voted to eliminate player 1.
+                
+                    Player 1 know that player 3 has voted to eliminate player 1.
+                
+                    Player 1 know that player 4 has voted to eliminate player 1.
+                
+Mafia: 
+                    Player 1 know that player 0 has voted to eliminate player 1.
+                
+                    Player 1 know that player 2 has voted to eliminate player 1.
+                
+                    Player 1 know that player 3 has voted to eliminate player 1.
+                
+                    Player 1 know that player 4 has voted to eliminate player 1.
+                
+Mafia: 
+                    Player 1 know that player 0 has voted to eliminate player 1.
+                
+                    Player 1 know that player 2 has voted to eliminate player 1.
+                
+                    Player 1 know that player 3 has voted to eliminate player 1.
+                
+                    Player 1 know that player 4 has voted to eliminate player 1.
+                
+Mafia: 
+                    Player 1 know that player 0 has voted to eliminate player 1.
+                
+                    Player 1 know that player 2 has voted to eliminate player 1.
+                
+                    Player 1 know that player 3 has voted to eliminate player 1.
+                
+                    Player 1 know that player 4 has voted to eliminate player 1.
+                
+Detective: 
+                    Player 2 know that player 0 has voted to eliminate player 1.
+                
+                    Player 2 know that player 1 has voted to eliminate player 3.
+                
+                    Player 2 know that player 3 has voted to eliminate player 1.
+                
+                    Player 2 know that player 4 has voted to eliminate player 1.
+                
+Detective: 
+                    Player 2 know that player 0 has voted to eliminate player 1.
+                
+                    Player 2 know that player 1 has voted to eliminate player 3.
+                
+                    Player 2 know that player 3 has voted to eliminate player 1.
+                
+                    Player 2 know that player 4 has voted to eliminate player 1.
+                
+Detective: 
+                    Player 2 know that player 0 has voted to eliminate player 1.
+                
+                    Player 2 know that player 1 has voted to eliminate player 3.
+                
+                    Player 2 know that player 3 has voted to eliminate player 1.
+                
+                    Player 2 know that player 4 has voted to eliminate player 1.
+                
+Detective: 
+                    Player 2 know that player 0 has voted to eliminate player 1.
+                
+                    Player 2 know that player 1 has voted to eliminate player 3.
+                
+                    Player 2 know that player 3 has voted to eliminate player 1.
+                
+                    Player 2 know that player 4 has voted to eliminate player 1.
+                
+Hunter: 
+                    Player 3 know that player 0 has voted to eliminate player 1.
+                
+                    Player 3 know that player 1 has voted to eliminate player 3.
+                
+                    Player 3 know that player 2 has voted to eliminate player 1.
+                
+                    Player 3 know that player 4 has voted to eliminate player 1.
+                
+Hunter: 
+                    Player 3 know that player 0 has voted to eliminate player 1.
+                
+                    Player 3 know that player 1 has voted to eliminate player 3.
+                
+                    Player 3 know that player 2 has voted to eliminate player 1.
+                
+                    Player 3 know that player 4 has voted to eliminate player 1.
+                
+Hunter: 
+                    Player 3 know that player 0 has voted to eliminate player 1.
+                
+                    Player 3 know that player 1 has voted to eliminate player 3.
+                
+                    Player 3 know that player 2 has voted to eliminate player 1.
+                
+                    Player 3 know that player 4 has voted to eliminate player 1.
+                
+Hunter: 
+                    Player 3 know that player 0 has voted to eliminate player 1.
+                
+                    Player 3 know that player 1 has voted to eliminate player 3.
+                
+                    Player 3 know that player 2 has voted to eliminate player 1.
+                
+                    Player 3 know that player 4 has voted to eliminate player 1.
+                
+Jailor: 
+                    Player 4 know that player 0 has voted to eliminate player 1.
+                
+                    Player 4 know that player 1 has voted to eliminate player 3.
+                
+                    Player 4 know that player 2 has voted to eliminate player 1.
+                
+                    Player 4 know that player 3 has voted to eliminate player 1.
+                
+Jailor: 
+                    Player 4 know that player 0 has voted to eliminate player 1.
+                
+                    Player 4 know that player 1 has voted to eliminate player 3.
+                
+                    Player 4 know that player 2 has voted to eliminate player 1.
+                
+                    Player 4 know that player 3 has voted to eliminate player 1.
+                
+Jailor: 
+                    Player 4 know that player 0 has voted to eliminate player 1.
+                
+                    Player 4 know that player 1 has voted to eliminate player 3.
+                
+                    Player 4 know that player 2 has voted to eliminate player 1.
+                
+                    Player 4 know that player 3 has voted to eliminate player 1.
+                
+Jailor: 
+                    Player 4 know that player 0 has voted to eliminate player 1.
+                
+                    Player 4 know that player 1 has voted to eliminate player 3.
+                
+                    Player 4 know that player 2 has voted to eliminate player 1.
+                
+                    Player 4 know that player 3 has voted to eliminate player 1.
+                
+Mafia: 
+                Player 1 spoke his last words: Player 1, it seems that the town has spoken and the votes are unanimous against you. It's clear that your time has come to an end as a Mafia member. The town has come together to eliminate you and protect the innocent townspeople. Your deception and manipulation have been uncovered, and justice will be served. Goodbye, Player 1.
+            
+Player: Player 0 listened to talk from 1. The content is Player 1, it seems that the town has spoken and the votes are unanimous against you. It's clear that your time has come to an end as a Mafia member. The town has come together to eliminate you and protect the innocent townspeople. Your deception and manipulation have been uncovered, and justice will be served. Goodbye, Player 1..
+Detective: Player 2 listened to talk from 1. The content is Player 1, it seems that the town has spoken and the votes are unanimous against you. It's clear that your time has come to an end as a Mafia member. The town has come together to eliminate you and protect the innocent townspeople. Your deception and manipulation have been uncovered, and justice will be served. Goodbye, Player 1..
+Hunter: Player 3 listened to talk from 1. The content is Player 1, it seems that the town has spoken and the votes are unanimous against you. It's clear that your time has come to an end as a Mafia member. The town has come together to eliminate you and protect the innocent townspeople. Your deception and manipulation have been uncovered, and justice will be served. Goodbye, Player 1..
+Jailor: Player 4 listened to talk from 1. The content is Player 1, it seems that the town has spoken and the votes are unanimous against you. It's clear that your time has come to an end as a Mafia member. The town has come together to eliminate you and protect the innocent townspeople. Your deception and manipulation have been uncovered, and justice will be served. Goodbye, Player 1..
+system: Player 1 was voted off.
