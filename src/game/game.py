@@ -1,12 +1,12 @@
 from collections import defaultdict
 
 from src.game.game_config import GameConfig
+from src.game.game_log import Logger
 from src.game.in_game_player import InGamePlayer, Survival
 from src.game.outcome import GameStatus
 from src.player.role import Role
 from src.player.role_mapping import role_mapping
 from src.util.general import most_frequent_random
-from src.game.game_log import Logger
 
 
 class Game:
@@ -140,6 +140,7 @@ class Game:
             status=True,
             action="Voted victim",
             target_user=self._victim_id,
+            string=f"Player {self._victim_id} decided to eliminate {self._victim_id} at night. Its role is {self._players[self._victim_id].role}",
             string=f"Player {self._victim_id} was voted off. Its role is {self._players[self._victim_id].role}",
         )
 

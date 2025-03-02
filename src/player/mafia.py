@@ -28,6 +28,7 @@ class Mafia(BasePlayer):
             self.context += f"""
                 Mafia {key} has voted to eliminate player {value}.
             """
+
         return
 
     def see_teammates(self, teammates: list):
