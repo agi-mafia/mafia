@@ -67,7 +67,6 @@ class Recorder:
         """
         # Remove all newlines from the string data
         string_data = string_data.replace('\n', '')
-        string_data = string_data + "\n\n"
         
         # Ensure the game_id is a string
         game_id = str(game_id)
