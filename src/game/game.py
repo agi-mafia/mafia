@@ -117,9 +117,8 @@ class Game:
             )
             for other_mafia_id in other_mafia_ids:
                 self._players[other_mafia_id].player.receive_victim_proposal(
-                    candidates=self._remaining_player_ids,
                     proposer=mafia_id,
-                    victim_proposal=victim_proposal,
+                    proposal=victim_proposal,
                 )
 
         # A final victim is chosen via mafia vote
@@ -141,7 +140,7 @@ class Game:
             status=True,
             action="Voted victim",
             target_user=self._victim_id,
-            string=f"Player {self._victim_id} was voted off. Its role is {self._players[self._victim_id].role}"
+            string=f"Player {self._victim_id} was voted off. Its role is {self._players[self._victim_id].role}",
         )
 
     def _detective_round(self):
@@ -190,7 +189,7 @@ class Game:
                 status=True,
                 action="Protected victim",
                 target_user=self._victim_id,
-                string=f"Player {self._victim_id} was eliminated failed because it was protected by jailor."
+                string=f"Player {self._victim_id} was eliminated failed because it was protected by jailor.",
             )
         if self._victim_id != -1:
             self._players[self._victim_id].survival = Survival.ELIMINATED
@@ -199,7 +198,7 @@ class Game:
                 status=False,
                 action="Eliminated victim",
                 target_user=self._victim_id,
-                string=f"Player {self._victim_id} was eliminated bt mafia."
+                string=f"Player {self._victim_id} was eliminated bt mafia.",
             )
         for player_id in self._remaining_player_ids:
             self._players[player_id].player.listen_death(self._victim_id)
@@ -243,14 +242,14 @@ class Game:
                 talk_index=self._lynch_id,
                 talk_content=last_words,
             )
-        
+
         self._logger.log(
             user=self._lynch_id,
             status=False,
             action="Voted lynch",
             target_user=-1,
-            string=f"Player {self._lynch_id} was voted off."
-        )   # TODO: log the vote info and broadcast it.
+            string=f"Player {self._lynch_id} was voted off.",
+        )  # TODO: log the vote info and broadcast it.
 
         if self._players[self._lynch_id].role == Role.HUNTER:
             hunter_target = self._players[self._lynch_id].player.shoot(
@@ -262,7 +261,7 @@ class Game:
                 status=False,
                 action="Shoot",
                 target_user=hunter_target,
-                string=f"Player {hunter_target} was shot by hunter {self._lynch_id}."
+                string=f"Player {hunter_target} was shot by hunter {self._lynch_id}.",
             )
 
     def hunter_retaliate(self, target_id):

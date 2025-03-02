@@ -68,7 +68,6 @@ class Mafia(BasePlayer):
 
     def receive_victim_proposal(
         self,
-        candidates: List[int],
         proposer: int,
         proposal: str,
     ) -> str:
