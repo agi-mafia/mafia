@@ -35,6 +35,7 @@ class Logger:
             string=string,
         )
         self.entries.append(entry)
+        print(string)
         print(entry.model_dump_json())
 
     def get_logs(self):

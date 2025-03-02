@@ -14,12 +14,14 @@ class Jailor(BasePlayer):
         super().__init__(index=index, model_name=model_name)
         self.role = "Jailor"
         self.parser = JsonOutputParser()
-        self.context += dedent("""\
+        self.context += dedent(
+            """\
             You are a Jailor, a role that allows you to choose one player each night to protect from elimination.
             You can only choose one player from the valid candidates.
             Your goal is to help all the town people to find the mafia players and eliminate them.
             In each day, You will be given a list of players who are still alive. You can choose one of them to protect from elimination.\
-        """)
+        """
+        )
 
     def choose_target(self, candidates: List[int]) -> int:
         self.target_prompt = PromptTemplate(
@@ -52,11 +54,40 @@ class Jailor(BasePlayer):
             parsed_output = self.parser.parse(output)
             if isinstance(parsed_output, dict) and "chosen_player" in parsed_output:
                 player_index = int(parsed_output["chosen_player"])
-                self.context += f"I chose player {player_index} to be protected from elimination."
+                self.context += (
+                    f"I chose player {player_index} to be protected from elimination."
+                )
+                self.logger.log(
+                    self.index,
+                    self.is_live,
+                    "shoot",
+                    player_index,
+                    f"""
+                        Player {self.index} is a jailor but he chooses to protect {player_index} tonight.
+                    """,
+                )
                 return player_index
             else:
                 print("Invalid response format from model")
+                self.logger.log(
+                    self.index,
+                    self.is_live,
+                    "shoot",
+                    -1,
+                    f"""
+                        Player {self.index} is a jailor but he chooses not to protect anyone tonight.
+                    """,
+                )
                 return -1
         except Exception as e:
             print(f"Error in choose_target: {e}")
+            self.logger.log(
+                self.index,
+                self.is_live,
+                "shoot",
+                -1,
+                f"""
+                    Player {self.index} is a jailor but he chooses not to protect anyone tonight.
+                """,
+            )
             return -1

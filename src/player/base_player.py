@@ -27,6 +27,18 @@ class BasePlayer:
             self.context += f"""
                 Player {key} has voted to eliminate player {value}.
             """
+            vote_str = ""
+            for key, value in votes_dict.items():
+                vote_str += f"""
+                    Player {self.index} know that player {key} has voted to eliminate player {value}.
+                """
+            self.logger.log(
+                self.index,
+                self.is_live,
+                "listen_vote",
+                self.index,
+                vote_str,
+            )
         return
 
     def listen_death(self, death_index: int):
@@ -34,17 +46,38 @@ class BasePlayer:
             self.context += """
                 No one was eliminated last night.
             """
+            self.logger.log(
+                self.index,
+                self.is_live,
+                "listen",
+                death_index,
+                f"Player {death_index} was eliminated last night.",
+            )
             return
 
         self.context += f"""
             Player {death_index} was eliminated last night.
         """
+        self.logger.log(
+            self.index,
+            self.is_live,
+            "listen",
+            death_index,
+            f"Player {death_index} was eliminated last night.",
+        )
         return
 
     def listen_talk(self, talk_index, talk_content):
         self.context += f"""
             Player {talk_index} has spoken: {talk_content}.
         """
+        self.logger.log(
+            self.index,
+            self.is_live,
+            "listen_talk",
+            talk_index,
+            f"Player {self.index} listened to talk from {talk_index}. The content is {talk_content}.",
+        )
         return
 
     def speak(self) -> str:
@@ -52,10 +85,16 @@ class BasePlayer:
             You should now express your perspective on the matter.
         """
         words = self.model_provider.inference(self.context)
+        self.logger.log(
+            self.index,
+            self.is_live,
+            "speak",
+            self.index,
+            f"Player {self.index} spoke: {words}",
+        )
         return words
 
     def vote(self, candidates: List[int]) -> int:
-
         self.target_prompt = PromptTemplate(
             template=self.context
             + dedent(
@@ -90,6 +129,13 @@ class BasePlayer:
                 res = int(parsed_output["chosen_player"])
                 self.context += f"I chose player {res} to be eliminated today."
                 print(self.context)
+                self.logger.log(
+                    self.index,
+                    self.is_live,
+                    "vote",
+                    res,
+                    f"Player {self.index} voted {res} off this round.",
+                )
                 return res
             else:
                 print("Invalid response format from model")
@@ -103,4 +149,13 @@ class BasePlayer:
             You can now speak your last words.
         """
         last_words = self.model_provider.inference(self.context)
+        self.logger.log(
+            self.index,
+            self.is_live,
+            "speak",
+            self.index,
+            f"""
+                Player {self.index} spoke his last words: {last_words}
+            """,
+        )
         return last_words

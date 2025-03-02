@@ -53,11 +53,38 @@ class Hunter(BasePlayer):
             if isinstance(parsed_output, dict) and "chosen_player" in parsed_output:
                 player_index = int(parsed_output["chosen_player"])
                 self.context += f"I chose player {player_index} to be eliminated."
-                print(self.context)
+                self.logger.log(
+                    self.index,
+                    self.is_live,
+                    "eliminate",
+                    player_index,
+                    f"""
+                        Player {self.index} is a hunter and he chose to eliminate player {player_index} when he's elimianted.
+                    """,
+                )
                 return player_index
             else:
                 print("Invalid response format from model")
+                self.logger.log(
+                    self.index,
+                    self.is_live,
+                    "eliminate",
+                    -1,
+                    f"""
+                        Player {self.index} is a hunter but he gives up eliminating anyone when he's eliminated.
+                    """,
+                )
                 return -1
         except Exception as e:
+            print(f"Error in choose_target: {e}")
+            self.logger.log(
+                self.index,
+                self.is_live,
+                "eliminate",
+                -1,
+                f"""
+                    Player {self.index} is a hunter but he gives up eliminating anyone when he's eliminated.
+                """,
+            )
             print(f"Error in choose_target: {e}")
             return -1

@@ -28,7 +28,9 @@ class Detective(BasePlayer):
 
         # Initialize the prompt template for target selection
         self.target_prompt = PromptTemplate(
-            template=self.context + dedent("""\
+            template=self.context
+            + dedent(
+                """\
             You can choose a player to verify their identity. The valid candidates are: {candidates}.
             Respond with a JSON object containing the chosen player index.
 
@@ -36,7 +38,8 @@ class Detective(BasePlayer):
 
             Example response:
             {{"chosen_player": 2}}
-            """),
+            """
+            ),
             input_variables=[],
             partial_variables={
                 "candidates": candidates,
@@ -54,16 +57,37 @@ class Detective(BasePlayer):
             parsed_output = self.parser.parse(output)
             if isinstance(parsed_output, dict) and "chosen_player" in parsed_output:
                 self.context += f"I chose player {parsed_output['chosen_player']} to verify its identity."
+                self.logger.log(
+                    self.index,
+                    self.is_live,
+                    "choose_target",
+                    int(parsed_output["chosen_player"]),
+                    f"Detective {self.index} has chosen target {int(parsed_output["chosen_player"])} to verify its identity",
+                )
                 return int(parsed_output["chosen_player"])
             else:
                 print("Invalid response format from model")
+                self.logger.log(
+                    self.index,
+                    self.is_live,
+                    "choose_target",
+                    -1,
+                    f"Detective {self.index} has given up choosing a target to verify its identity",
+                )
                 return -1
         except Exception as e:
             print(f"Error in choose_target: {e}")
+            self.logger.log(
+                self.index,
+                self.is_live,
+                "choose_target",
+                -1,
+                f"Detective {self.index} has given up choosing a target to verify its identity",
+            )
             return -1
 
-    # TODO FIX
     def receive_info(self, target_id: int, target_role: Role):
-        # self.context += prompt
-        # return self.context
-        pass
+        self.context += f"""
+            Player {target_id} is a {target_role.name}.
+        """
+        return
