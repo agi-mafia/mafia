@@ -20,6 +20,12 @@ Which model will win the ultimate test of intelligence?
 
 ## Run code
 
+Prepare `.env` file locally in this format:
+```
+OPENAI_API_KEY=sk-proj-xxx_abc
+```
+
+Then start Docker:
 ```
 docker-compose up
 ```
