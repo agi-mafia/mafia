@@ -15,4 +15,4 @@ services:
     # This ensures that the container restarts if it crashes
     restart: unless-stopped
     # Use the command from Dockerfile
-    # The --reload flag in the uvicorn command will automatically reload the server when code changes 
+    # The --reload flag in the uvicorn command will automatically reload the server when code changes

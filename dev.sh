@@ -10,4 +10,4 @@ docker-compose build
 docker-compose up -d
 
 # Show logs
-docker-compose logs -f 
+docker-compose logs -f
