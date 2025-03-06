@@ -1,0 +1,10 @@
+# Ignore Python bytecode
+__pycache__/
+*.pyc
+*.pyo
+
+# Ignore Git & Docker metadata
+.git/
+.gitignore
+.DS_Store
+docker-compose.override.yml
