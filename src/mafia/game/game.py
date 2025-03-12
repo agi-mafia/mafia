@@ -1,12 +1,12 @@
 from collections import defaultdict
 
-from src.game.game_config import GameConfig
-from src.game.game_log import Logger
-from src.game.in_game_player import InGamePlayer, Survival
-from src.game.outcome import GameStatus
-from src.player.role import Role
-from src.player.role_mapping import role_mapping
-from src.util.general import most_frequent_random
+from mafia.game.game_config import GameConfig
+from mafia.game.game_log import Logger
+from mafia.game.in_game_player import InGamePlayer, Survival
+from mafia.game.outcome import GameStatus
+from mafia.player.role import Role
+from mafia.player.role_mapping import role_mapping
+from mafia.util.general import most_frequent_random
 
 
 class Game:

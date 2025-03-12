@@ -4,7 +4,7 @@ from typing import List
 from langchain.chains import LLMChain
 from langchain_core.output_parsers.json import JsonOutputParser
 from langchain_core.prompts import PromptTemplate
-from src.player.base_player import BasePlayer
+from mafia.player.base_player import BasePlayer
 
 
 class Hunter(BasePlayer):

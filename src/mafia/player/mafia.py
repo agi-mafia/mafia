@@ -5,8 +5,8 @@ from langchain.chains import LLMChain
 from langchain_core.output_parsers.json import JsonOutputParser
 from langchain_core.prompts import PromptTemplate
 
-from src.model.model import Model
-from src.player.base_player import BasePlayer
+from mafia.model.model import Model
+from mafia.player.base_player import BasePlayer
 
 
 class Mafia(BasePlayer):

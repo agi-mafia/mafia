@@ -3,7 +3,7 @@ from typing import List
 from pydantic import BaseModel, ConfigDict, Field
 from typing_extensions import Annotated
 
-from src.player.role import Role
+from mafia.player.role import Role
 
 
 class PlayerConfig(BaseModel):
