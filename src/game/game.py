@@ -284,7 +284,7 @@ class Game:
 
         if self._players[target_id].role == Role.HUNTER:
             hunter_target = self._players[target_id].player.shoot(
-                candidates=self._remaining_players
+                candidates=self._remaining_player_ids
             )
             self.hunter_retaliate(hunter_target)
 

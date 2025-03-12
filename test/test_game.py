@@ -1,6 +1,6 @@
-from mafia.game.game import Game
-from mafia.game.game_config import GameConfig, PlayerConfig
-from mafia.player.role import Role
+from src.game.game import Game
+from src.game.game_config import GameConfig, PlayerConfig
+from src.player.role import Role
 
 
 def test_game():
