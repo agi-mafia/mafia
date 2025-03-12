@@ -1,5 +1,5 @@
-import random
 from collections import Counter
+import random
 from typing import Iterable
 
 

@@ -257,7 +257,7 @@ class Game:
 
         if self._players[self._lynch_id].role == Role.HUNTER:
             hunter_target = self._players[self._lynch_id].player.shoot(
-                candidates=self._remaining_players
+                candidates=self._remaining_player_ids
             )
             self.hunter_retaliate(hunter_target)
             self._logger.log(

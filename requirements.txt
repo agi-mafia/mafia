@@ -14,3 +14,6 @@ uvicorn==0.29.0
 
 # Data
 pydantic==2.10.6
+
+# Test
+pytest==8.3.5
