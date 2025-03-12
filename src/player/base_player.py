@@ -4,9 +4,9 @@ from typing import List
 from langchain.chains import LLMChain
 from langchain_core.output_parsers.json import JsonOutputParser
 from langchain_core.prompts import PromptTemplate
-from mafia.game.game_config import GameConfig
-from mafia.game.game_log import Logger
-from mafia.model.model import Model
+from src.game.game_config import GameConfig
+from src.game.game_log import Logger
+from src.model.model import Model
 
 
 class BasePlayer:

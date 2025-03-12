@@ -2,7 +2,7 @@ import json
 from datetime import datetime
 
 from pydantic import BaseModel, Field
-from mafia.util.recorder import Recorder
+from src.util.recorder import Recorder
 
 recorder = Recorder()
 

@@ -1,5 +1,5 @@
-from mafia.model.model import Model
-from mafia.player.base_player import BasePlayer
+from src.model.model import Model
+from src.player.base_player import BasePlayer
 
 
 class Villager(BasePlayer):

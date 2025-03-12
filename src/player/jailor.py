@@ -6,7 +6,7 @@ from langchain.chains import LLMChain
 from langchain_core.output_parsers.json import JsonOutputParser
 
 from langchain_core.prompts import PromptTemplate
-from mafia.player.base_player import BasePlayer
+from src.player.base_player import BasePlayer
 
 
 class Jailor(BasePlayer):

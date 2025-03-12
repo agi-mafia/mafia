@@ -2,8 +2,8 @@ from enum import Enum, auto
 
 from pydantic import BaseModel, ConfigDict
 
-from mafia.player.base_player import BasePlayer
-from mafia.player.role import Role
+from src.player.base_player import BasePlayer
+from src.player.role import Role
 
 
 class Survival(Enum):
