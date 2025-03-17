@@ -17,3 +17,4 @@ pydantic==2.10.6
 
 # Test
 pytest==8.3.5
+isort==6.0.1

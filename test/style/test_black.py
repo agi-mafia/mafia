@@ -1,15 +1,16 @@
 import subprocess
-from test.util import PROJECT_ROOT
+from test.util import PYTHON_FILES_ABSOLUTE, PYTHON_FILES_RELATIVE
 
 import pytest
 
 
+@pytest.mark.style
 @pytest.mark.parametrize(
     "file_path",
-    list(PROJECT_ROOT.rglob("*.py")),
-    ids=lambda file_path: str(file_path.relative_to(PROJECT_ROOT)),
+    PYTHON_FILES_ABSOLUTE,
+    ids=PYTHON_FILES_RELATIVE,
 )
-def test_style(file_path):
+def test_black(file_path):
     result = subprocess.run(
         ["black", "--check", "--diff", str(file_path)],
         capture_output=True,

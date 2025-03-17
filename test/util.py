@@ -16,3 +16,20 @@ def get_project_root():
 
 
 PROJECT_ROOT = get_project_root()
+
+
+def get_python_files_absolute():
+    return list(PROJECT_ROOT.rglob("*.py"))
+
+
+PYTHON_FILES_ABSOLUTE = get_python_files_absolute()
+
+
+def get_python_files_relative():
+    return [
+        str(python_file.relative_to(PROJECT_ROOT))
+        for python_file in PYTHON_FILES_ABSOLUTE
+    ]
+
+
+PYTHON_FILES_RELATIVE = get_python_files_relative()
