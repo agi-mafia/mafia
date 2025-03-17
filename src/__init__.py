@@ -1,3 +1,0 @@
-"""
-GameAgent source package
-""" 
